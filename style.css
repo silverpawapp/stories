@@ -34,7 +34,7 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 
 /* メニュー */
 .story-btn{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--line);background:var(--surface);border-radius:16px;cursor:pointer;margin:0 0 12px}
-.story-icon{flex:0 0 72px;width:72px;height:72px;border-radius:14px;object-fit:cover;background:#fff;border:1px solid var(--line)}
+.story-icon{flex:0 0 88px;width:88px;height:88px;border-radius:14px;object-fit:cover;background:#fff;border:1px solid var(--line)}
 .story-txt{flex:1;min-width:0}
 .story-btn .t{font-family:var(--en);font-size:21px;font-weight:700;line-height:1.35}
 .story-btn .j{font-size:16px;color:var(--muted);margin-top:2px}

@@ -58,7 +58,7 @@ async function showMenu() {
     return;
   }
   const list = stories.map((s) => el("button", { class: "story-btn", type: "button", onclick: () => openStory(s) },
-    s.icon ? el("img", { class: "story-icon", src: s.icon, alt: "", width: "72", height: "72" }) : null,
+    s.icon ? el("img", { class: "story-icon", src: s.icon, alt: "", width: "88", height: "88" }) : null,
     el("div", { class: "story-txt" },
       el("div", { class: "t", lang: "en", text: s.title }),
       el("div", { class: "j", text: s.titleJa }),
