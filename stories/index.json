@@ -1,0 +1,12 @@
+{
+  "stories": [
+    {
+      "id": "einstein",
+      "title": "Albert Einstein: My Life",
+      "titleJa": "アインシュタイン 私の人生",
+      "short": "アインシュタイン",
+      "chapters": 10,
+      "icon": "stories/einstein/icon.png"
+    }
+  ]
+}
