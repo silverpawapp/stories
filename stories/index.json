@@ -41,6 +41,30 @@
       "icon": "stories/630days/icon.png",
       "titleTr": "630日の教室",
       "subtitleTr": "世界一周の旅で、日本の指導者たちは何を学んだのか"
+    },
+    {
+      "id": "wolf",
+      "title": "The Wolf Who Wanted Friends",
+      "subtitle": "A Talk Between Two Friends",
+      "titleJa": "友だちがほしかったオオカミ（会話）",
+      "short": "オオカミとキツネ",
+      "chapters": 1,
+      "meta": "会話（約2分）",
+      "icon": "stories/wolf/icon.png",
+      "titleTr": "友だちがほしかったオオカミ",
+      "subtitleTr": "2人の友だちの会話"
+    },
+    {
+      "id": "oz",
+      "title": "The Wizard Who Wasn't",
+      "subtitle": "A Talk on Oz's First Day",
+      "titleJa": "魔法使いじゃなかった魔法使い（会話）",
+      "short": "オズの最初の日",
+      "chapters": 1,
+      "meta": "会話（約2分）",
+      "icon": "stories/oz/icon.png",
+      "titleTr": "魔法使いじゃなかった魔法使い",
+      "subtitleTr": "オズが来た最初の日の会話"
     }
   ]
 }

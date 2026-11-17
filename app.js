@@ -64,7 +64,7 @@ async function showMenu() {
       el("div", { class: "t", lang: "en", text: s.title }),
       s.subtitle ? el("div", { class: "sub", lang: "en", text: s.subtitle }) : null,
       el("div", { class: "j", text: s.titleJa }),
-      el("div", { class: "meta muted", text: `${s.chapters}チャプター` }))));
+      el("div", { class: "meta muted", text: s.meta || `${s.chapters}チャプター` }))));
   main.replaceChildren(
     el("h1", { text: "お話をえらぶ" }),
     el("p", { class: "small muted" }, "色の付いた語（",
@@ -130,15 +130,23 @@ function showChapter() {
   const storyHead = chIndex === 0 ? el("div", { class: "story-head", lang: "en" },
     el("div", { class: "story-title", text: story.title }),
     story.subtitle ? el("div", { class: "story-sub", text: story.subtitle }) : null) : null;
-  const title = el("div", { class: "ch-title", lang: "en" },
-    el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title));
-  const text = el("div", { class: "text", lang: "en" }, ch.paras.map((p) => el("p", {}, ...segs(p))));
+  const title = ch.title.length ? el("div", { class: "ch-title", lang: "en" },
+    el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title)) : null;
+  const speakers = [];
+  const line = (p) => {
+    const m = story.dialogue && typeof p[0] === "string" && /^([A-Z][A-Za-z ]*): $/.exec(p[0]);
+    if (!m) return el("p", {}, ...segs(p));
+    if (!speakers.includes(m[1])) speakers.push(m[1]);
+    return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: m[1] }),
+      el("span", { class: "say" }, ...segs(p.slice(1))));
+  };
+  const text = el("div", { class: "text" + (story.dialogue ? " talk" : ""), lang: "en" }, ch.paras.map(line));
 
   // 日本語訳（ボタンで開く）
   const jaBox = el("div", { class: "ja-box", hidden: true, lang: "ja" },
     chIndex === 0 && storyInfo && storyInfo.titleTr ? el("p", { class: "ja-story" }, storyInfo.titleTr,
       storyInfo.subtitleTr ? el("br") : null, storyInfo.subtitleTr || null) : null,
-    el("h2", { text: ch.titleJa }), ch.ja.map((t) => el("p", { text: t })));
+    ch.titleJa ? el("h2", { text: ch.titleJa }) : null, ch.ja.map((t) => el("p", { text: t })));
   const jaBtn = el("button", { class: "ja-btn", type: "button", "aria-expanded": "false", text: "日本語訳を見る" });
   jaBtn.addEventListener("click", () => {
     const open = jaBox.hidden;
@@ -154,7 +162,8 @@ function showChapter() {
     el("button", { class: "sub", type: "button", disabled: chIndex === 0, onclick: () => { chIndex--; showChapter(); }, text: "＜ 前のチャプター" }),
     el("button", { type: "button", disabled: chIndex === last, onclick: () => { chIndex++; showChapter(); }, text: "次のチャプター ＞" }));
 
-  main.replaceChildren(chips, player, ...(storyHead ? [storyHead] : []), title, text, jaBtn, jaBox, nav);
+  const one = story.chapters.length === 1;
+  main.replaceChildren(...[one ? null : chips, player, storyHead, title, text, jaBtn, jaBox, one ? null : nav].filter(Boolean));
   main.scrollTop = 0;
   const on = chips.querySelector('[aria-pressed="true"]');
   if (on) on.scrollIntoView({ block: "nearest", inline: "center" });

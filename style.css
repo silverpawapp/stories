@@ -75,6 +75,14 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .w.seen{background:transparent}
 .w.now{outline:3px solid var(--focus);outline-offset:1px}
 
+/* 会話 */
+.text.talk p{display:flex;gap:.6em;align-items:baseline;margin:0 0 12px}
+.who{flex:0 0 4.2em;white-space:nowrap;font-weight:700;font-size:.85em;padding:0 .3em;border-radius:6px;text-align:center}
+.say{flex:1;min-width:0}
+.who0{background:#dbe7f8;color:#173f7a}
+.who1{background:#dcf1e4;color:#14532d}
+@media (prefers-color-scheme: dark){.who0{background:#1d3150;color:#c7dcff}.who1{background:#183a28;color:#c9f0d6}}
+
 /* 日本語訳 */
 .ja-btn{display:block;width:100%;min-height:52px;margin:6px 0 12px;border:2px solid var(--line);background:var(--surface);border-radius:14px;font-size:18px;font-weight:700;cursor:pointer}
 .ja-box{background:var(--primary-soft);border-radius:14px;padding:12px 14px;margin:0 0 12px}
