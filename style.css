@@ -41,7 +41,7 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .story-btn .j{font-size:16px;color:var(--muted);margin-top:2px}
 .story-btn .meta{font-size:16px;margin-top:6px}
 .legend{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.credit{font-size:16px;color:var(--muted);margin-top:20px;line-height:1.6}
+.credit{font-size:8px;color:var(--muted);margin-top:20px;line-height:1.6}
 .credit p{margin:0 0 8px}
 
 /* チャプターの切り替え */
