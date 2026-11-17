@@ -20,11 +20,12 @@ button{font:inherit;color:inherit}
 [hidden]{display:none !important}
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:760px;margin:0 auto;
   padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
-header#top{flex:0 0 56px;display:flex;align-items:center;gap:8px;padding:0 12px}
-#where{flex:1;text-align:center;font-family:var(--head);font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header#top{flex:0 0 56px;display:flex;align-items:center;gap:8px;padding:0 12px;position:relative}
+#where{position:absolute;left:118px;right:118px;top:0;line-height:56px;pointer-events:none;text-align:center;font-family:var(--head);font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .topbtn{min-height:44px;padding:0 10px;border:1px solid var(--line);background:var(--surface);border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;white-space:nowrap}
 .topbtn.ghost{visibility:hidden;width:44px;padding:0}
 #backBtn{flex:0 0 auto}
+#backBtn[hidden] ~ #where{left:12px;right:12px}
 main{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px calc(24px + env(safe-area-inset-bottom))}
 main:focus{outline:none}
 h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}

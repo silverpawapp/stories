@@ -58,6 +58,18 @@
       "subtitleTr": "世界一周の旅で、日本の指導者たちは何を学んだのか"
     },
     {
+      "id": "cookies",
+      "title": "The Case of the Missing Cookies",
+      "subtitle": "A Talk in a Detective's Office",
+      "titleJa": "消えたクッキー事件（会話・少し難しい）",
+      "short": "クッキー事件",
+      "chapters": 1,
+      "meta": "会話（約2分）・少し難しい語",
+      "icon": "stories/cookies/icon.png",
+      "titleTr": "消えたクッキー事件",
+      "subtitleTr": "探偵事務所での会話"
+    },
+    {
       "id": "mirror",
       "title": "The Honest Mirror",
       "subtitle": "A Talk on the Castle Wall",
