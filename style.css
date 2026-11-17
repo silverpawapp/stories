@@ -37,6 +37,7 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .story-icon{flex:0 0 88px;width:88px;height:88px;border-radius:14px;object-fit:cover;background:#fff;border:1px solid var(--line)}
 .story-txt{flex:1;min-width:0}
 .story-btn .t{font-family:var(--en);font-size:21px;font-weight:700;line-height:1.35}
+.story-btn .sub{font-family:var(--en);font-size:16px;line-height:1.4;margin-top:2px}
 .story-btn .j{font-size:16px;color:var(--muted);margin-top:2px}
 .story-btn .meta{font-size:16px;margin-top:6px}
 .legend{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}

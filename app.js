@@ -61,6 +61,7 @@ async function showMenu() {
     s.icon ? el("img", { class: "story-icon", src: s.icon, alt: "", width: "88", height: "88" }) : null,
     el("div", { class: "story-txt" },
       el("div", { class: "t", lang: "en", text: s.title }),
+      s.subtitle ? el("div", { class: "sub", lang: "en", text: s.subtitle }) : null,
       el("div", { class: "j", text: s.titleJa }),
       el("div", { class: "meta muted", text: `${s.chapters}チャプター` }))));
   main.replaceChildren(
