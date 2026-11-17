@@ -82,6 +82,18 @@
       "subtitleTr": "お城のかべの上での会話"
     },
     {
+      "id": "hokusai",
+      "title": "Talking with Hokusai",
+      "subtitle": "An Interview Across 200 Years",
+      "titleJa": "北斎にインタビュー（会話・3章・少し難しい）",
+      "short": "北斎インタビュー",
+      "chapters": 3,
+      "meta": "会話（3章・各約3分）・少し難しい語",
+      "icon": "stories/hokusai/icon.png",
+      "titleTr": "北斎と話そう",
+      "subtitleTr": "200年をこえたインタビュー"
+    },
+    {
       "id": "einstein",
       "title": "Albert Einstein: My Life",
       "titleJa": "アインシュタイン 私の人生",

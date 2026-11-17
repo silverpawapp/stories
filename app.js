@@ -14,6 +14,14 @@ let storyInfo = null;      // stories/index.json の、開いているお話の�
 let chIndex = 0;           // 開いているチャプター（0から）
 const audio = new Audio();
 audio.preload = "metadata";
+const SPEEDS = [0.8, 1.0, 1.2];
+let speed = parseFloat(store("speed"));
+if (!SPEEDS.includes(speed)) speed = 1.0;
+function applySpeed() {
+  audio.defaultPlaybackRate = speed;
+  audio.playbackRate = speed;
+  try { audio.preservesPitch = true; } catch (e) {}
+}
 
 /* ---- 小さな道具 ---- */
 function el(tag, attrs = {}, ...kids) {
@@ -120,9 +128,19 @@ function showChapter() {
   ui.msg = el("div", { class: "audio-msg", hidden: true });
   ui.seek.addEventListener("input", () => { ui.dragging = true; ui.cur.textContent = fmt(+ui.seek.value); });
   ui.seek.addEventListener("change", () => { audio.currentTime = +ui.seek.value; ui.dragging = false; });
+  const speedBtns = SPEEDS.map((v) => el("button", {
+    class: "speed", type: "button", "aria-pressed": String(v === speed), "aria-label": v + "倍の速さ",
+    text: v.toFixed(1) + "×",
+    onclick: () => {
+      speed = v; store("speed", String(v)); applySpeed();
+      speedBtns.forEach((b, i) => b.setAttribute("aria-pressed", String(SPEEDS[i] === speed)));
+    },
+  }));
   const player = el("div", { class: "player" },
     el("div", { class: "player-box" }, ui.play,
-      el("div", { class: "seek-wrap" }, ui.seek, el("div", { class: "time" }, ui.cur, ui.dur))),
+      el("div", { class: "seek-wrap" }, ui.seek, el("div", { class: "time" }, ui.cur, ui.dur)),
+      el("div", { class: "speeds", role: "group", "aria-label": "再生の速さ" },
+        el("span", { class: "speeds-label", text: "速さ" }), speedBtns)),
     ui.msg);
 
   // 本文
@@ -226,6 +244,7 @@ function stopAudio() {
   audio.load();
 }
 function togglePlay() {
+  applySpeed();
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 }
 function setPlayLabel() {
@@ -234,6 +253,7 @@ function setPlayLabel() {
   ui.play.setAttribute("aria-label", audio.paused ? "再生" : "一時停止");
 }
 audio.addEventListener("loadedmetadata", () => {
+  applySpeed();
   if (!ui.seek) return;
   ui.ready = true;
   ui.seek.max = String(audio.duration || 0);
