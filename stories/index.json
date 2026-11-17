@@ -1,13 +1,28 @@
 {
   "stories": [
     {
-      "id": "einstein",
-      "title": "Albert Einstein: My Life",
-      "titleJa": "アインシュタイン 私の人生",
-      "short": "アインシュタイン",
-      "chapters": 10,
-      "icon": "stories/einstein/icon.png",
-      "titleTr": "アルベルト・アインシュタイン　私の人生"
+      "id": "oz",
+      "title": "The Wizard Who Wasn't",
+      "subtitle": "A Talk on Oz's First Day",
+      "titleJa": "魔法使いじゃなかった魔法使い（会話）",
+      "short": "オズの最初の日",
+      "chapters": 1,
+      "meta": "会話（約2分）",
+      "icon": "stories/oz/icon.png",
+      "titleTr": "魔法使いじゃなかった魔法使い",
+      "subtitleTr": "オズが来た最初の日の会話"
+    },
+    {
+      "id": "wolf",
+      "title": "The Wolf Who Wanted Friends",
+      "subtitle": "A Talk Between Two Friends",
+      "titleJa": "友だちがほしかったオオカミ（会話）",
+      "short": "オオカミとキツネ",
+      "chapters": 1,
+      "meta": "会話（約2分）",
+      "icon": "stories/wolf/icon.png",
+      "titleTr": "友だちがほしかったオオカミ",
+      "subtitleTr": "2人の友だちの会話"
     },
     {
       "id": "edo",
@@ -43,28 +58,25 @@
       "subtitleTr": "世界一周の旅で、日本の指導者たちは何を学んだのか"
     },
     {
-      "id": "wolf",
-      "title": "The Wolf Who Wanted Friends",
-      "subtitle": "A Talk Between Two Friends",
-      "titleJa": "友だちがほしかったオオカミ（会話）",
-      "short": "オオカミとキツネ",
+      "id": "mirror",
+      "title": "The Honest Mirror",
+      "subtitle": "A Talk on the Castle Wall",
+      "titleJa": "正直な鏡（会話・少し難しい）",
+      "short": "正直な鏡",
       "chapters": 1,
-      "meta": "会話（約2分）",
-      "icon": "stories/wolf/icon.png",
-      "titleTr": "友だちがほしかったオオカミ",
-      "subtitleTr": "2人の友だちの会話"
+      "meta": "会話（約2分）・少し難しい語",
+      "icon": "stories/mirror/icon.png",
+      "titleTr": "正直な鏡",
+      "subtitleTr": "お城のかべの上での会話"
     },
     {
-      "id": "oz",
-      "title": "The Wizard Who Wasn't",
-      "subtitle": "A Talk on Oz's First Day",
-      "titleJa": "魔法使いじゃなかった魔法使い（会話）",
-      "short": "オズの最初の日",
-      "chapters": 1,
-      "meta": "会話（約2分）",
-      "icon": "stories/oz/icon.png",
-      "titleTr": "魔法使いじゃなかった魔法使い",
-      "subtitleTr": "オズが来た最初の日の会話"
+      "id": "einstein",
+      "title": "Albert Einstein: My Life",
+      "titleJa": "アインシュタイン 私の人生",
+      "short": "アインシュタイン",
+      "chapters": 10,
+      "icon": "stories/einstein/icon.png",
+      "titleTr": "アルベルト・アインシュタイン　私の人生"
     }
   ]
 }
