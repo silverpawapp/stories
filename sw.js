@@ -1,10 +1,13 @@
 /* 電波がなくても使えるようにするしくみ。アプリやお話を直したら VERSION を上げる */
-const VERSION = "2026-11-16g";
+const VERSION = "2026-11-17e";
 const CACHE = "ondoku-" + VERSION;
 const AUDIO = "ondoku-audio";   // 音声は版が変わっても消さない（一度聞いたチャプターを保存）
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
   "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png",
-  "stories/index.json", "stories/einstein/story.json", "stories/einstein/icon.png"];
+  "stories/index.json", "stories/einstein/story.json", "stories/einstein/icon.png",
+  "stories/edo/story.json", "stories/edo/icon.png",
+  "stories/hidden/story.json", "stories/hidden/icon.png",
+  "stories/630days/story.json", "stories/630days/icon.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
