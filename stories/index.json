@@ -6,7 +6,8 @@
       "titleJa": "アインシュタイン 私の人生",
       "short": "アインシュタイン",
       "chapters": 10,
-      "icon": "stories/einstein/icon.png"
+      "icon": "stories/einstein/icon.png",
+      "titleTr": "アルベルト・アインシュタイン　私の人生"
     },
     {
       "id": "edo",
@@ -15,7 +16,9 @@
       "titleJa": "江戸のなぞ（徳川家康と江戸幕府）",
       "short": "江戸のなぞ",
       "chapters": 5,
-      "icon": "stories/edo/icon.png"
+      "icon": "stories/edo/icon.png",
+      "titleTr": "江戸のなぞ",
+      "subtitleTr": "家康はどうやって、260年以上続く政府をつくったのか？"
     },
     {
       "id": "hidden",
@@ -24,7 +27,9 @@
       "titleJa": "かくれた情報の道（外国の知識とアジア・日本）",
       "short": "かくれた情報の道",
       "chapters": 6,
-      "icon": "stories/hidden/icon.png"
+      "icon": "stories/hidden/icon.png",
+      "titleTr": "かくれた情報の道",
+      "subtitleTr": "外国の知識は、アジアと日本をどう変えたのか"
     },
     {
       "id": "630days",
@@ -33,7 +38,9 @@
       "titleJa": "630日の教室（岩倉使節団と明治の日本）",
       "short": "630日の教室",
       "chapters": 6,
-      "icon": "stories/630days/icon.png"
+      "icon": "stories/630days/icon.png",
+      "titleTr": "630日の教室",
+      "subtitleTr": "世界一周の旅で、日本の指導者たちは何を学んだのか"
     }
   ]
 }

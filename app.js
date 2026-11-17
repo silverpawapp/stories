@@ -10,6 +10,7 @@ const APP_NAME = "英語で読むおはなし";
 let stories = [];          // stories/index.json
 let story = null;          // 開いているお話（story.json）
 let storyBase = "";        // "stories/einstein/"
+let storyInfo = null;      // stories/index.json の、開いているお話の行
 let chIndex = 0;           // 開いているチャプター（0から）
 const audio = new Audio();
 audio.preload = "metadata";
@@ -80,6 +81,7 @@ async function showMenu() {
 /* ---- お話を開く ---- */
 async function openStory(s) {
   storyBase = "stories/" + s.id + "/";
+  storyInfo = s;
   main.replaceChildren(el("p", { class: "muted small", text: "読みこみ中…" }));
   try {
     story = await getJSON(storyBase + "story.json");
@@ -124,12 +126,18 @@ function showChapter() {
     ui.msg);
 
   // 本文
+  // Chapter 1 の音声は、お話の題名と副題から読み上げるので、本文の上にも出す
+  const storyHead = chIndex === 0 ? el("div", { class: "story-head", lang: "en" },
+    el("div", { class: "story-title", text: story.title }),
+    story.subtitle ? el("div", { class: "story-sub", text: story.subtitle }) : null) : null;
   const title = el("div", { class: "ch-title", lang: "en" },
     el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title));
   const text = el("div", { class: "text", lang: "en" }, ch.paras.map((p) => el("p", {}, ...segs(p))));
 
   // 日本語訳（ボタンで開く）
   const jaBox = el("div", { class: "ja-box", hidden: true, lang: "ja" },
+    chIndex === 0 && storyInfo && storyInfo.titleTr ? el("p", { class: "ja-story" }, storyInfo.titleTr,
+      storyInfo.subtitleTr ? el("br") : null, storyInfo.subtitleTr || null) : null,
     el("h2", { text: ch.titleJa }), ch.ja.map((t) => el("p", { text: t })));
   const jaBtn = el("button", { class: "ja-btn", type: "button", "aria-expanded": "false", text: "日本語訳を見る" });
   jaBtn.addEventListener("click", () => {
@@ -146,7 +154,7 @@ function showChapter() {
     el("button", { class: "sub", type: "button", disabled: chIndex === 0, onclick: () => { chIndex--; showChapter(); }, text: "＜ 前のチャプター" }),
     el("button", { type: "button", disabled: chIndex === last, onclick: () => { chIndex++; showChapter(); }, text: "次のチャプター ＞" }));
 
-  main.replaceChildren(chips, player, title, text, jaBtn, jaBox, nav);
+  main.replaceChildren(chips, player, ...(storyHead ? [storyHead] : []), title, text, jaBtn, jaBox, nav);
   main.scrollTop = 0;
   const on = chips.querySelector('[aria-pressed="true"]');
   if (on) on.scrollIntoView({ block: "nearest", inline: "center" });
