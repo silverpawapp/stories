@@ -179,17 +179,24 @@ function showChapter() {
   const title = ch.title.length ? el("div", { class: "ch-title", lang: "en" },
     el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title), chTrBox ? trBtn(chTrBox) : null, chTrBox) : null;
   const speakers = [];
+  // 長い名前は、札だけ頭文字で短くする（本文と音声はそのまま）
+  const SHORT_WHO = { "Nightingale": "N.", "Hokusai": "H.", "Mr. Brown": "Mr. B" };
   const line = (p, i) => {
-    const m = talk && typeof p[0] === "string" && /^([A-Z][A-Za-z ]*): $/.exec(p[0]);
+    const m = talk && typeof p[0] === "string" && /^([A-Z][A-Za-z. ]*): $/.exec(p[0]);
     if (!m) return el("p", {}, ...segs(p));
     if (!speakers.includes(m[1])) speakers.push(m[1]);
     // 訳の「オオカミ：」などの話し手の部分は、札があるので取る
     const ja = (ch.ja[i] || "").replace(/^[^：「]{1,8}：/, "");
     const box = ja ? trBox(ja) : null;
-    return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: m[1] }),
+    return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: SHORT_WHO[m[1]] || m[1], title: m[1] }),
       el("span", { class: "say" }, ...segs(p.slice(1)), box ? trBtn(box) : null, box));
   };
   const text = el("div", { class: "text" + (talk ? " talk" : ""), lang: "en" }, ch.paras.map(line));
+  // 話し手の札は、いちばん長い名前（Mr. Brown・Nightingale など）に幅をそろえる
+  if (talk) requestAnimationFrame(() => {
+    const ws = [...text.querySelectorAll(".who")];
+    if (ws.length) text.style.setProperty("--who", Math.max(...ws.map((w) => w.scrollWidth)) + "px");
+  });
 
   // 日本語訳（ボタンで開く）
   const jaBox = el("div", { class: "ja-box", hidden: true, lang: "ja" },
