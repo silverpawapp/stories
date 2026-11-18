@@ -1,6 +1,19 @@
 {
   "stories": [
     {
+      "id": "school",
+      "title": "Is That Normal in Japan?",
+      "subtitle": "A New Student from America",
+      "titleJa": "日本の学校のあたりまえ（会話）",
+      "short": "日本の学校",
+      "chapters": 1,
+      "meta": "会話（約2分半）",
+      "titleTr": "それって日本ではふつうなの？",
+      "subtitleTr": "アメリカから来た転校生",
+      "icon": "stories/school/icon.png",
+      "level": 1
+    },
+    {
       "id": "oz",
       "title": "The Wizard Who Wasn't",
       "subtitle": "A Talk on Oz's First Day",
@@ -38,6 +51,19 @@
       "subtitleTr": "250年をこえたインタビュー",
       "icon": "stories/mozart/icon.png",
       "level": 1
+    },
+    {
+      "id": "roommate",
+      "title": "My Noisy Roommate",
+      "subtitle": "A Talk After School",
+      "titleJa": "困ったルームメート（会話）",
+      "short": "ルームメート",
+      "chapters": 1,
+      "meta": "会話（約3分半）",
+      "titleTr": "うるさいルームメート",
+      "subtitleTr": "放課後の相談",
+      "icon": "stories/roommate/icon.png",
+      "level": 2
     },
     {
       "id": "nightingale",
