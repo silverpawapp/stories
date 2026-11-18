@@ -34,6 +34,11 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 12px}
 
 /* メニュー */
+.help{font-size:14px;line-height:1.7;color:var(--muted);margin:10px 0 14px}
+.help p{margin:0 0 4px}
+.help .w{font-size:14px}
+.help .help-bubble{width:28px;height:24px;margin:0 2px;cursor:default;vertical-align:-6px}
+.help .help-bubble svg{width:18px;height:18px}
 .story-btn{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--line);background:var(--surface);border-radius:16px;cursor:pointer;margin:0 0 12px}
 .story-icon{flex:0 0 88px;width:88px;height:88px;border-radius:14px;object-fit:cover;background:#fff;border:1px solid var(--line)}
 .story-txt{flex:1;min-width:0}

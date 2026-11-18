@@ -74,10 +74,12 @@ async function showMenu() {
       el("div", { class: "j", text: s.titleJa }),
       el("div", { class: "meta muted", text: s.meta || `${s.chapters}チャプター` }))));
   main.replaceChildren(
-    el("h1", { text: "お話をえらぶ" }),
-    el("p", { class: "small muted" }, "色の付いた語（",
-      el("span", { class: "w", style: "cursor:default", text: "example" }),
-      "）をタップすると、その文での意味が出ます。"),
+    el("div", { class: "help" },
+      el("p", {}, "色の付いた語（",
+        el("span", { class: "w", style: "cursor:default", text: "example" }),
+        "）をタップすると、その文での意味が出ます。"),
+      el("p", {}, "会話のお話では、せりふの横の", helpBubble(),
+        "を押すと、そのせりふの日本語訳が出ます。ほかのお話では、チャプターの最後の「日本語訳を見る」で訳が出ます。")),
     ...list,
     el("div", { class: "credit" },
       el("p", { text: "色を付けた語は、英検3級（中学卒業程度）より上を目安に選んでいます。英検は公益財団法人 日本英語検定協会の登録商標です。このアプリは日本英語検定協会とは関係ありません。" }),
@@ -199,6 +201,11 @@ function showChapter() {
 
 // 会話の訳：吹き出しボタンを押すと、そのすぐ下に日本語訳を出す
 const BUBBLE = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="currentColor"/><text x="12" y="13.6" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="sans-serif">訳</text></svg>';
+function helpBubble() {
+  const s = el("span", { class: "tr-btn help-bubble", "aria-hidden": "true" });
+  s.innerHTML = BUBBLE;
+  return s;
+}
 function trBox(text) {
   return el("span", { class: "tr", lang: "ja", hidden: true, text });
 }

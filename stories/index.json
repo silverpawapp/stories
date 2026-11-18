@@ -47,6 +47,18 @@
       "subtitleTr": "外国の知識は、アジアと日本をどう変えたのか"
     },
     {
+      "id": "mozart",
+      "title": "Talking with Mozart",
+      "subtitle": "An Interview Across 250 Years",
+      "titleJa": "モーツァルトにインタビュー（会話）",
+      "short": "モーツァルト",
+      "chapters": 1,
+      "meta": "会話（約3分）",
+      "titleTr": "モーツァルトと話そう",
+      "subtitleTr": "250年をこえたインタビュー",
+      "icon": "stories/mozart/icon.png"
+    },
+    {
       "id": "630days",
       "title": "The 630-Day Classroom",
       "subtitle": "What Japan's Leaders Learned on a Trip Around the World",
