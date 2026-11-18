@@ -66,14 +66,35 @@ async function showMenu() {
     main.replaceChildren(el("p", { text: "お話の一覧を読みこめませんでした。電波のある所で開き直してください。" }));
     return;
   }
-  const list = stories.map((s) => el("button", { class: "story-btn", type: "button", onclick: () => openStory(s) },
+  const card = (s) => el("button", { class: "story-btn", type: "button", onclick: () => openStory(s) },
     s.icon ? el("img", { class: "story-icon", src: s.icon, alt: "", width: "88", height: "88" }) : null,
     el("div", { class: "story-txt" },
       el("div", { class: "t", lang: "en", text: s.title }),
       s.subtitle ? el("div", { class: "sub", lang: "en", text: s.subtitle }) : null,
       el("div", { class: "j", text: s.titleJa }),
-      el("div", { class: "meta muted", text: s.meta || `${s.chapters}チャプター` }))));
+      el("div", { class: "meta muted", text: s.meta || `${s.chapters}チャプター` })));
+  // 難しさで3つに分ける（index.json の level：1＝初級、2＝中級、3＝上級）
+  const LEVELS = [
+    [1, "初級", "短い会話。文が短く、やさしい語が中心"],
+    [2, "中級", "少し長い会話や、章に分かれた文章"],
+    [3, "上級", "難しい語が多い会話や、長い文章"],
+  ];
+  const list = LEVELS.flatMap(([lv, name, note]) => {
+    const items = stories.filter((s) => (s.level || 2) === lv);
+    if (!items.length) return [];
+    return [el("h2", { class: "level lv" + lv }, el("span", { class: "level-name", text: name }),
+      el("span", { class: "level-note", text: note })), ...items.map(card)];
+  });
   main.replaceChildren(
+    el("div", { class: "about" },
+      el("p", { class: "about-lead", text: "英語の音声を聞きながら、物語や偉人へのインタビューを読むアプリです。耳と目の両方を使って、英語を読む力と聞く力をのばします。" }),
+      el("details", {},
+        el("summary", { text: "使い方のヒント" }),
+        el("ol", {},
+          el("li", { text: "まずは音声を流しながら、英語の文字を目で追いましょう。速いと感じたら 0.8倍に。" }),
+          el("li", { text: "わからない語は、色の付いた語をタップして確かめます。日本語訳は、最後の答え合わせに使いましょう。" }),
+          el("li", { text: "同じお話を何回も聞くと、聞き取れる部分がふえていきます。慣れたら音声のすぐあとについて声に出して読み、1.2倍にも挑戦。" }),
+          el("li", { text: "「ちょっとむずかしい」くらいのレベルを選びましょう。1日1チャプターでも、毎日つづけるのがいちばんの近道です。" })))),
     el("div", { class: "help" },
       el("p", {}, "色の付いた語（",
         el("span", { class: "w", style: "cursor:default", text: "example" }),

@@ -1,5 +1,5 @@
 /* 電波がなくても使えるようにするしくみ。アプリやお話を直したら VERSION を上げる */
-const VERSION = "2026-11-18d";
+const VERSION = "2026-11-18g";
 const CACHE = "ondoku-" + VERSION;
 const AUDIO = "ondoku-audio";   // 音声は版が変わっても消さない（一度聞いたチャプターを保存）
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
@@ -13,7 +13,8 @@ const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest"
   "stories/mirror/story.json", "stories/mirror/icon.png",
   "stories/cookies/story.json", "stories/cookies/icon.png",
   "stories/hokusai/story.json", "stories/hokusai/icon.png",
-  "stories/mozart/story.json", "stories/mozart/icon.png"];
+  "stories/mozart/story.json", "stories/mozart/icon.png",
+  "stories/nightingale/story.json", "stories/nightingale/icon.png"];
 
 self.addEventListener("install", (e) => {
   // ブラウザやGitHub Pagesの一時保存（最大10分）に残った古いファイルを使わないよう、必ずサーバーから取り直す

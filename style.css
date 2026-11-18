@@ -34,11 +34,28 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 12px}
 
 /* メニュー */
+.about{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0 12px;font-size:15px;line-height:1.7}
+.about-lead{margin:0}
+.about details{margin-top:6px}
+.about summary{cursor:pointer;font-weight:700;color:var(--primary-ink);min-height:32px;display:flex;align-items:center;gap:6px;list-style:none}
+.about summary::-webkit-details-marker{display:none}
+.about summary::before{content:"▶";font-size:11px;transition:transform .15s}
+.about details[open] summary::before{transform:rotate(90deg)}
+@media (prefers-color-scheme: dark){.about summary{color:var(--primary)}}
+.about ol{margin:4px 0 2px;padding-left:1.4em}
+.about li{margin:0 0 4px}
 .help{font-size:14px;line-height:1.7;color:var(--muted);margin:10px 0 14px}
 .help p{margin:0 0 4px}
 .help .w{font-size:14px}
 .help .help-bubble{width:28px;height:24px;margin:0 2px;cursor:default;vertical-align:-6px}
 .help .help-bubble svg{width:18px;height:18px}
+.level{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;font-size:16px}
+.level-name{font-family:var(--head);font-size:20px;font-weight:700;padding:2px 12px;border-radius:999px}
+.level-note{font-size:14px;font-weight:400;color:var(--muted)}
+.lv1 .level-name{background:#dcf1e4;color:#14532d}
+.lv2 .level-name{background:#dbe7f8;color:#173f7a}
+.lv3 .level-name{background:#f6e0d4;color:#7a2e0e}
+@media (prefers-color-scheme: dark){.lv1 .level-name{background:#183a28;color:#c9f0d6}.lv2 .level-name{background:#1d3150;color:#c7dcff}.lv3 .level-name{background:#4a2414;color:#ffd6c2}}
 .story-btn{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--line);background:var(--surface);border-radius:16px;cursor:pointer;margin:0 0 12px}
 .story-icon{flex:0 0 88px;width:88px;height:88px;border-radius:14px;object-fit:cover;background:#fff;border:1px solid var(--line)}
 .story-txt{flex:1;min-width:0}
