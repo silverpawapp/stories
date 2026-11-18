@@ -89,6 +89,15 @@ h1{font-family:var(--head);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .who1{background:#dcf1e4;color:#14532d}
 @media (prefers-color-scheme: dark){.who0{background:#1d3150;color:#c7dcff}.who1{background:#183a28;color:#c9f0d6}}
 
+/* 会話の訳（吹き出しボタン） */
+.tr-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:32px;margin:0 0 0 6px;padding:0;vertical-align:middle;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);cursor:pointer}
+.tr-btn[aria-expanded="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.tr-btn svg text{fill:var(--surface)}
+.tr-btn[aria-expanded="true"] svg text{fill:var(--primary)}
+.tr{display:block;margin:6px 0 2px;padding:6px 10px;border-radius:10px;background:var(--primary-soft);font-family:var(--ja);font-size:16px;line-height:1.7;color:var(--ink)}
+.tr[hidden]{display:none}
+.story-title .tr-btn,.ch-title .tr-btn{width:30px;height:28px}
+
 /* 日本語訳 */
 .ja-btn{display:block;width:100%;min-height:52px;margin:6px 0 12px;border:2px solid var(--line);background:var(--surface);border-radius:14px;font-size:18px;font-weight:700;cursor:pointer}
 .ja-box{background:var(--primary-soft);border-radius:14px;padding:12px 14px;margin:0 0 12px}

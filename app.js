@@ -145,20 +145,27 @@ function showChapter() {
 
   // 本文
   // Chapter 1 の音声は、お話の題名と副題から読み上げるので、本文の上にも出す
+  const talk = !!story.dialogue;
+  const storyTr = storyInfo && storyInfo.titleTr ? storyInfo.titleTr + (storyInfo.subtitleTr ? "　" + storyInfo.subtitleTr : "") : "";
+  const storyTrBox = talk && storyTr ? trBox(storyTr) : null;
   const storyHead = chIndex === 0 ? el("div", { class: "story-head", lang: "en" },
-    el("div", { class: "story-title", text: story.title }),
-    story.subtitle ? el("div", { class: "story-sub", text: story.subtitle }) : null) : null;
+    el("div", { class: "story-title" }, story.title, storyTrBox ? trBtn(storyTrBox) : null),
+    story.subtitle ? el("div", { class: "story-sub", text: story.subtitle }) : null, storyTrBox) : null;
+  const chTrBox = talk && ch.titleJa ? trBox(ch.titleJa) : null;
   const title = ch.title.length ? el("div", { class: "ch-title", lang: "en" },
-    el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title)) : null;
+    el("span", { class: "num", text: "Chapter " + ch.n }), ...segs(ch.title), chTrBox ? trBtn(chTrBox) : null, chTrBox) : null;
   const speakers = [];
-  const line = (p) => {
-    const m = story.dialogue && typeof p[0] === "string" && /^([A-Z][A-Za-z ]*): $/.exec(p[0]);
+  const line = (p, i) => {
+    const m = talk && typeof p[0] === "string" && /^([A-Z][A-Za-z ]*): $/.exec(p[0]);
     if (!m) return el("p", {}, ...segs(p));
     if (!speakers.includes(m[1])) speakers.push(m[1]);
+    // 訳の「オオカミ：」などの話し手の部分は、札があるので取る
+    const ja = (ch.ja[i] || "").replace(/^[^：「]{1,8}：/, "");
+    const box = ja ? trBox(ja) : null;
     return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: m[1] }),
-      el("span", { class: "say" }, ...segs(p.slice(1))));
+      el("span", { class: "say" }, ...segs(p.slice(1)), box ? trBtn(box) : null, box));
   };
-  const text = el("div", { class: "text" + (story.dialogue ? " talk" : ""), lang: "en" }, ch.paras.map(line));
+  const text = el("div", { class: "text" + (talk ? " talk" : ""), lang: "en" }, ch.paras.map(line));
 
   // 日本語訳（ボタンで開く）
   const jaBox = el("div", { class: "ja-box", hidden: true, lang: "ja" },
@@ -181,12 +188,29 @@ function showChapter() {
     el("button", { type: "button", disabled: chIndex === last, onclick: () => { chIndex++; showChapter(); }, text: "次のチャプター ＞" }));
 
   const one = story.chapters.length === 1;
-  main.replaceChildren(...[one ? null : chips, player, storyHead, title, text, jaBtn, jaBox, one ? null : nav].filter(Boolean));
+  main.replaceChildren(...[one ? null : chips, player, storyHead, title, text,
+    talk ? null : jaBtn, talk ? null : jaBox, one ? null : nav].filter(Boolean));
   main.scrollTop = 0;
   const on = chips.querySelector('[aria-pressed="true"]');
   if (on) on.scrollIntoView({ block: "nearest", inline: "center" });
 
   loadAudio(storyBase + ch.audio);
+}
+
+// 会話の訳：吹き出しボタンを押すと、そのすぐ下に日本語訳を出す
+const BUBBLE = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="currentColor"/><text x="12" y="13.6" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="sans-serif">訳</text></svg>';
+function trBox(text) {
+  return el("span", { class: "tr", lang: "ja", hidden: true, text });
+}
+function trBtn(box) {
+  const b = el("button", { class: "tr-btn", type: "button", "aria-label": "日本語訳", "aria-expanded": "false" });
+  b.innerHTML = BUBBLE;
+  b.addEventListener("click", () => {
+    const open = box.hidden;
+    box.hidden = !open;
+    b.setAttribute("aria-expanded", String(open));
+  });
+  return b;
 }
 
 // 本文のかたまりを、文字と「タップできる語」に分ける
