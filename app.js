@@ -1,11 +1,11 @@
-/* 英語で読むおはなし */
+/* 英語で聞くストーリー */
 "use strict";
 
 const $ = (s, r = document) => r.querySelector(s);
 const main = $("#main");
 const backBtn = $("#backBtn");
 const where = $("#where");
-const APP_NAME = "英語で読むおはなし";
+const APP_NAME = "英語で聞くストーリー";
 
 let stories = [];          // stories/index.json
 let story = null;          // 開いているお話（story.json）
