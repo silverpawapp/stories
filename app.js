@@ -213,6 +213,29 @@ async function openStory(s) {
 }
 
 /* ---- コツのページ（音声・問題なし。stories/<id>/guide.json） ---- */
+// コツのページのアイコン（線だけのシンプルな絵。24×24）
+const GICON = {
+  eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  book: '<path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2z"/><path d="M22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+  note: '<path d="M5 3h10l4 4v14H5z"/><path d="M8 11h8M8 15h8M8 7h4"/>',
+  sign: '<path d="M12 3v18"/><path d="M5 6h11l3 3-3 3H5z"/>',
+  skip: '<path d="M5 5l8 7-8 7z"/><path d="M14 5l6 7-6 7"/>',
+  finger: '<path d="M4 12h10"/><path d="M10 7l5 5-5 5"/><circle cx="19" cy="12" r="2"/>',
+  cut: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5L20 18M8.5 16.5L20 6"/>',
+  shape: '<rect x="3" y="4" width="7" height="6" rx="1"/><rect x="14" y="4" width="7" height="6" rx="1"/><rect x="8.5" y="15" width="7" height="6" rx="1"/><path d="M10 7h4M12 10v5"/>',
+  key: '<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v3"/>',
+  swap: '<path d="M4 8h14l-3-3M20 16H6l3 3"/>',
+  eraser: '<path d="M16 4l5 5-10 10H6l-3-3z"/><path d="M11 9l5 5M9 20h12"/>',
+  warn: '<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/>',
+};
+function gicon(name, cls) {
+  const sp = el("span", { class: cls || "g-ic", "aria-hidden": "true" });
+  sp.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (GICON[name] || "") + "</svg>";
+  return sp;
+}
 async function openGuide(s) {
   stopAudio();
   main.replaceChildren(el("p", { class: "muted small", text: "読みこみ中…" }));
@@ -228,14 +251,30 @@ async function openGuide(s) {
   backBtn.hidden = false;
   where.textContent = s.short || s.titleJa;
   document.title = g.title + "｜" + APP_NAME;
-  const item = (it) => el("div", { class: "tip" },
-    el("h3", { class: "tip-t", text: it.t }),
-    el("p", { class: "tip-d", text: it.d }),
-    it.ex ? el("dl", { class: "tip-ex" }, it.ex.flatMap(([a, b]) => [el("dt", { lang: "en", text: a }), el("dd", { text: b })])) : null);
+  // 例の表（英語と日本語の組）
+  const exList = (ex, title) => el("div", { class: "tip-exw" }, title ? el("p", { class: "tip-ex-title", text: title }) : null,
+    el("dl", { class: "tip-ex" }, ex.flatMap(([a, b]) => [el("dt", { text: a }), el("dd", { text: b })])));
+  // コツ1つ（アイコン＋見出し＋説明）
+  const item = (it) => el("div", { class: "tip" + (it.icon === "warn" ? " tip-warn" : "") },
+    it.icon ? gicon(it.icon, "tip-ic") : null,
+    el("div", { class: "tip-main" },
+      el("h3", { class: "tip-t", text: it.t }),
+      el("p", { class: "tip-d", text: it.d }),
+      it.ex ? exList(it.ex, it.exTitle) : null));
+  // 流れ（番号＋アイコン＋矢印）
+  const flow = (steps) => el("ol", { class: "gflow" }, steps.map((st, i) => el("li", { class: "gflow-step" },
+    el("div", { class: "gflow-badge" }, el("span", { class: "gflow-n", text: String(i + 1) }), gicon(st.icon, "gflow-ic")),
+    el("div", { class: "gflow-txt" }, el("p", { class: "gflow-t", text: st.t }), el("p", { class: "gflow-d", text: st.d })))));
+  // 表（問題の種類ごとのコツ）。スマホでは1行ずつカードの形で見せる
+  const table = (sec) => el("div", { class: "gtable" }, sec.rows.map((r) => el("div", { class: "gtable-row" },
+    el("p", { class: "gtable-q" }, ...r[0].split("\n").flatMap((t, k) => k ? [el("br"), el("span", { class: "gtable-en", lang: "en", text: t })] : [t])),
+    el("p", { class: "gtable-c" }, el("span", { class: "gtable-k", text: sec.head[1] }), r[1]),
+    el("p", { class: "gtable-c" }, el("span", { class: "gtable-k", text: sec.head[2] }), r[2]))));
   main.replaceChildren(el("article", { class: "guide" },
     el("h2", { class: "guide-title", text: g.title }),
     el("p", { class: "guide-lead", text: g.lead }),
-    ...g.sections.map((sec) => el("section", { class: "guide-sec" }, el("h2", { text: sec.h }), ...sec.items.map(item))),
+    ...g.sections.map((sec) => el("section", { class: "guide-sec" }, el("h2", { text: sec.h }),
+      sec.type === "flow" ? flow(sec.steps) : sec.type === "table" ? table(sec) : sec.items.map(item))),
     g.note ? el("p", { class: "guide-note muted", text: g.note }) : null));
   main.scrollTop = 0;
 }

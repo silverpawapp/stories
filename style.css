@@ -313,13 +313,40 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .guide{font-size:16px;line-height:1.75}
 .guide-title{font-size:20px;margin:6px 0 8px}
 .guide-lead{background:var(--accent-soft);border-radius:12px;padding:10px 14px;margin:0 0 16px}
-.guide-sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 4px;margin:0 0 14px}
-.guide-sec>h2{font-size:18px;margin:0 0 8px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
-.tip{margin:0 0 12px}
-.tip-t{font-size:16px;margin:0 0 2px}
+.guide-sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 6px;margin:0 0 14px}
+.guide-sec>h2{font-size:18px;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+/* コツ1つ：左にアイコン */
+.tip{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px}
+.tip-ic{flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center}
+.tip-ic svg{width:24px;height:24px}
+.tip-warn .tip-ic{background:#fde3d6;color:#9a3412}
+.tip-main{flex:1;min-width:0}
+.tip-t{font-size:16px;margin:6px 0 2px}
 .tip-d{margin:0}
-.tip-ex{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0 0;padding:8px 12px;background:var(--surface2);border-radius:10px;font-size:15px}
-.tip-ex dt{font-family:var(--en);font-weight:700}
+.tip-exw{margin:8px 0 0;padding:8px 12px;background:var(--surface2);border-radius:10px;font-size:15px}
+.tip-ex-title{margin:0 0 4px;font-weight:700;color:var(--muted);font-size:14px}
+.tip-ex{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}
+.tip-ex dt{font-family:var(--en),var(--ja);font-weight:700}
 .tip-ex dd{margin:0}
+/* 流れ：番号つきの丸＋アイコン、あいだに下向きの矢印 */
+.gflow{list-style:none;margin:0;padding:0}
+.gflow-step{display:flex;gap:12px;align-items:flex-start;position:relative;padding-bottom:22px}
+.gflow-step:last-child{padding-bottom:6px}
+.gflow-step:not(:last-child)::after{content:"";position:absolute;left:23px;top:52px;bottom:4px;border-left:2px solid var(--accent)}
+.gflow-step:not(:last-child)::before{content:"";position:absolute;left:18px;bottom:2px;border:6px solid transparent;border-top:8px solid var(--accent);border-bottom:0}
+.gflow-badge{flex:0 0 48px;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;position:relative}
+.gflow-ic svg{width:24px;height:24px;display:block}
+.gflow-n{position:absolute;top:-6px;left:-6px;width:22px;height:22px;border-radius:50%;background:var(--surface);color:var(--accent-ink);border:2px solid var(--accent);font-size:13px;font-weight:700;line-height:18px;text-align:center}
+.gflow-txt{flex:1;min-width:0}
+.gflow-t{font-weight:700;margin:4px 0 0}
+.gflow-d{margin:0;font-size:15px;color:var(--muted)}
+/* 表：1つの問題の種類を1枚のカードに */
+.gtable{display:grid;gap:10px;margin:0 0 8px}
+.gtable-row{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--surface2)}
+.gtable-q{margin:0 0 4px;font-weight:700}
+.gtable-en{font-family:var(--en);font-weight:400;font-size:14px;color:var(--muted)}
+.gtable-c{margin:0;font-size:15px}
+.gtable-k{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:0 6px;margin-right:6px}
 .guide-note{font-size:13px;margin:4px 0 20px}
 @media (max-width:420px){.tip-ex{grid-template-columns:1fr}.tip-ex dd{margin:0 0 6px}}
+@media (prefers-color-scheme: dark){.gflow-badge{color:#1b2335}.tip-warn .tip-ic{background:#4a2414;color:#ffd6c2}}
