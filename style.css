@@ -242,3 +242,15 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 @media (prefers-color-scheme: dark){.wl-btn{color:#dccfff}.wl-btn[aria-expanded="true"]{background:#2c2550}}
 .wordlist{margin-top:0}
 .wl-other{border-color:var(--line) !important}
+
+/* Complete the Words：答え合わせのあと（iPhone の灰色を防ぎ、ダークモードの色も用意） */
+.ctw-in[readonly],.ctw-in:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+.ctw-in.ok{color:#14532d;-webkit-text-fill-color:#14532d}
+.ctw-in.ng{color:#7a2e0e;-webkit-text-fill-color:#7a2e0e}
+@media (prefers-color-scheme: dark){
+  .ctw-in.ok{background:#183a28;border-color:#4ade80;color:#c9f0d6;-webkit-text-fill-color:#c9f0d6}
+  .ctw-in.ng{background:#4a2414;border-color:#fb923c;color:#ffd6c2;-webkit-text-fill-color:#ffd6c2}
+  .ctw-ans{color:#4ade80}
+  .q-verdict.ok{color:#4ade80}
+  .q-verdict.ng{color:#fb923c}
+}

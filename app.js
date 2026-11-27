@@ -461,7 +461,7 @@ function ctwItem(q, i, done) {
       const ok = inp.value.normalize("NFKC").trim().toLowerCase() === inp.dataset.ans.toLowerCase();
       if (ok) n++;
       inp.classList.add(ok ? "ok" : "ng");
-      inp.disabled = true;
+      inp.readOnly = true;   // disabled だと iPhone で半透明・灰色になるので readOnly にする
       if (!ok) inp.after(el("span", { class: "ctw-ans", text: inp.dataset.ans }));
     });
     check.disabled = true;
