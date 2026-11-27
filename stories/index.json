@@ -674,6 +674,54 @@
       "meta": "約160語・確認問題5問",
       "titleTr": "起こりやすさはどう表すの？",
       "subtitleTr": "数学：確率"
+    },
+    {
+      "id": "TFL03-sc01_birds",
+      "section": "toefl",
+      "subject": "理科",
+      "subjectKey": "sci",
+      "step": 3,
+      "code": "TFL03-sc01",
+      "title": "Are Birds Living Dinosaurs?",
+      "subtitle": "Science: The Evolution of Birds",
+      "titleJa": "鳥は生きている恐竜？（鳥の進化）",
+      "short": "理科：鳥の進化",
+      "chapters": 1,
+      "meta": "約180語・確認問題6問",
+      "titleTr": "鳥は生きている恐竜なの？",
+      "subtitleTr": "理科：鳥の進化"
+    },
+    {
+      "id": "TFL03-dl01_library",
+      "section": "toefl",
+      "subject": "日常",
+      "subjectKey": "daily",
+      "step": 3,
+      "code": "TFL03-dl01",
+      "title": "Library Holiday Hours",
+      "subtitle": "Daily Life: A Notice",
+      "titleJa": "図書館の休みの期間の開館時間（お知らせ）",
+      "short": "日常：お知らせ",
+      "chapters": 1,
+      "meta": "約45語・確認問題2問",
+      "titleTr": "図書館の休みの期間の開館時間",
+      "subtitleTr": "日常の文章：お知らせ"
+    },
+    {
+      "id": "TFL03-dl02_fieldtrip",
+      "section": "toefl",
+      "subject": "日常",
+      "subjectKey": "daily",
+      "step": 3,
+      "code": "TFL03-dl02",
+      "title": "Science Club Field Trip",
+      "subtitle": "Daily Life: An Email",
+      "titleJa": "科学クラブの見学（メール）",
+      "short": "日常：メール",
+      "chapters": 1,
+      "meta": "約120語・確認問題3問",
+      "titleTr": "科学クラブの見学",
+      "subtitleTr": "日常の文章：メール"
     }
   ]
 }
