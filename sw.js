@@ -1,5 +1,5 @@
 /* 電波がなくても使えるようにするしくみ。アプリやお話を直したら VERSION を上げる */
-const VERSION = "2026-11-27j";
+const VERSION = "2026-11-27k";
 const CACHE = "ondoku-" + VERSION;
 const AUDIO = "ondoku-audio";   // 音声は版が変わっても消さない（一度聞いたチャプターを保存）
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
@@ -18,7 +18,8 @@ const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest"
   "stories/school/story.json", "stories/school/icon.png",
   "stories/roommate/story.json", "stories/roommate/icon.png",
   "stories/TFL01-sc01_plants/story.json", "stories/TFL01-ss01_rice/story.json",
-  "stories/TFL01-sc02_moon/story.json", "stories/TFL01-sc03_digestion/story.json", "stories/TFL01-ss02_sakoku/story.json", "stories/TFL01-ss03_industry/story.json"];
+  "stories/TFL01-sc02_moon/story.json", "stories/TFL01-sc03_digestion/story.json", "stories/TFL01-ss02_sakoku/story.json", "stories/TFL01-ss03_industry/story.json",
+  "stories/TFL01-sc04_water/story.json", "stories/TFL01-sc05_fossils/story.json", "stories/TFL01-sc06_foodchain/story.json", "stories/TFL01-ss04_climate/story.json", "stories/TFL01-ss05_nara/story.json", "stories/TFL01-ss06_taxes/story.json"];
 
 self.addEventListener("install", (e) => {
   // ブラウザやGitHub Pagesの一時保存（最大10分）に残った古いファイルを使わないよう、必ずサーバーから取り直す
