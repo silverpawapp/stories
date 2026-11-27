@@ -164,7 +164,7 @@
       "level": 3
     },
     {
-      "id": "plants",
+      "id": "TFL01-sc01_plants",
       "section": "toefl",
       "subject": "理科",
       "subjectKey": "sci",
@@ -180,7 +180,39 @@
       "code": "TFL01-sc01"
     },
     {
-      "id": "rice",
+      "id": "TFL01-sc02_moon",
+      "section": "toefl",
+      "subject": "理科",
+      "subjectKey": "sci",
+      "step": 1,
+      "code": "TFL01-sc02",
+      "title": "Why Does the Moon Change Shape?",
+      "subtitle": "Science: The Phases of the Moon",
+      "titleJa": "月の形はなぜ変わる？（月の満ち欠け）",
+      "short": "理科：月の満ち欠け",
+      "chapters": 1,
+      "meta": "約110語・確認問題5問",
+      "titleTr": "月の形はなぜ変わるの？",
+      "subtitleTr": "理科：月の満ち欠け"
+    },
+    {
+      "id": "TFL01-sc03_digestion",
+      "section": "toefl",
+      "subject": "理科",
+      "subjectKey": "sci",
+      "step": 1,
+      "code": "TFL01-sc03",
+      "title": "Where Does Our Food Go?",
+      "subtitle": "Science: Digestion",
+      "titleJa": "食べたものはどこへ行く？（消化と吸収）",
+      "short": "理科：消化と吸収",
+      "chapters": 1,
+      "meta": "約100語・確認問題5問",
+      "titleTr": "食べたものはどこへ行くの？",
+      "subtitleTr": "理科：消化"
+    },
+    {
+      "id": "TFL01-ss01_rice",
       "section": "toefl",
       "subject": "社会",
       "subjectKey": "soc",
@@ -194,6 +226,38 @@
       "titleTr": "稲作は日本をどう変えたの？",
       "subtitleTr": "社会：弥生時代",
       "code": "TFL01-ss01"
+    },
+    {
+      "id": "TFL01-ss02_sakoku",
+      "section": "toefl",
+      "subject": "社会",
+      "subjectKey": "soc",
+      "step": 1,
+      "code": "TFL01-ss02",
+      "title": "Why Did Japan Limit Its Trade?",
+      "subtitle": "Social Studies: Japan in the Edo Period",
+      "titleJa": "日本はなぜ貿易を制限した？（鎖国）",
+      "short": "社会：鎖国",
+      "chapters": 1,
+      "meta": "約100語・確認問題5問",
+      "titleTr": "日本はなぜ貿易を制限したの？",
+      "subtitleTr": "社会：江戸時代の日本"
+    },
+    {
+      "id": "TFL01-ss03_industry",
+      "section": "toefl",
+      "subject": "社会",
+      "subjectKey": "soc",
+      "step": 1,
+      "code": "TFL01-ss03",
+      "title": "Why Are Factories Near the Sea?",
+      "subtitle": "Social Studies: Japan's Industry",
+      "titleJa": "工場はなぜ海の近くにある？（太平洋ベルト）",
+      "short": "社会：日本の工業",
+      "chapters": 1,
+      "meta": "約90語・確認問題5問",
+      "titleTr": "工場はなぜ海の近くにあるの？",
+      "subtitleTr": "社会：日本の工業"
     }
   ]
 }
