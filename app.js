@@ -441,7 +441,8 @@ function ctwItem(q, i, done) {
   let last = 0, m;
   while ((m = rx.exec(q.text))) {
     parts.push(q.text.slice(last, m.index));
-    const inp = el("input", { class: "ctw-in", type: "text", maxlength: String(m[2].length), autocomplete: "off",
+    // inputmode="email"：多くのスマホで、日本語ではなく英語（ローマ字）のキーボードが出る
+    const inp = el("input", { class: "ctw-in", type: "text", inputmode: "email", lang: "en", maxlength: String(m[2].length), autocomplete: "off",
       autocapitalize: "off", autocorrect: "off", spellcheck: "false", "aria-label": m[1] + "のつづきを入力",
       placeholder: "_".repeat(m[2].length), style: "width:" + (m[2].length + 1.2) + "ch" });
     inp.dataset.ans = m[2];
@@ -456,7 +457,8 @@ function ctwItem(q, i, done) {
   check.addEventListener("click", () => {
     let n = 0;
     inputs.forEach((inp) => {
-      const ok = inp.value.trim().toLowerCase() === inp.dataset.ans.toLowerCase();
+      // 全角で入力されても（ｃｅｓｓ など）半角になおして判定する
+      const ok = inp.value.normalize("NFKC").trim().toLowerCase() === inp.dataset.ans.toLowerCase();
       if (ok) n++;
       inp.classList.add(ok ? "ok" : "ng");
       inp.disabled = true;
