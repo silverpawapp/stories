@@ -200,6 +200,7 @@ async function openStory(s) {
 let ui = {};
 function showChapter() {
   stopAudio();
+  seenWords = new Set();
   const ch = story.chapters[chIndex];
   store("ch:" + story.id, String(chIndex));
 
@@ -338,11 +339,16 @@ function trBtn(box) {
 }
 
 // 本文のかたまりを、文字と「タップできる語」に分ける
+// 色を付けるのは、そのチャプターで最初に出たときだけ（2回目からはふつうの文字）
+let seenWords = new Set();
 function segs(list) {
   return list.map((s) => {
     if (typeof s === "string") return document.createTextNode(s);
     const g = story.gloss[s.g];
     if (!g) return document.createTextNode(s.t);
+    const key = (g.base || g.w).toLowerCase();
+    if (seenWords.has(key)) return document.createTextNode(s.t);
+    seenWords.add(key);
     return el("button", { class: "w" + (g.k ? " w-" + g.k : ""), type: "button", "data-g": s.g, onclick: (e) => showWord(e.currentTarget, s.t, g), text: s.t });
   });
 }
