@@ -275,8 +275,8 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 @media (prefers-color-scheme: dark){.flow-pill{background:#2c2550;color:#dccfff}}
 
 /* グラフ（数学など）：線は2px、点は直径10px＋2pxのふち、補助線は1px */
-.fig{margin:-6px 0 18px;padding:8px 6px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);--series:#257de0}
-@media (prefers-color-scheme: dark){.fig{--series:#338ced}}
+.fig{margin:-6px 0 18px;padding:8px 6px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);--series:#257de0;--series-2:#f47230}
+@media (prefers-color-scheme: dark){.fig{--series:#338ced;--series-2:#e76624}}
 .fig-svg{display:block;width:100%;height:auto;max-width:460px;margin:0 auto}
 .fig figcaption{text-align:center;font-family:var(--en);font-size:14px;color:var(--muted);margin-top:2px}
 .fig-grid{stroke:var(--line);stroke-width:1}
@@ -288,3 +288,10 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .fig-line{stroke:var(--series);stroke-width:2;stroke-linecap:round}
 .fig-dot{fill:var(--series);stroke:var(--surface);stroke-width:2}
 .fig-slope{fill:none;stroke:var(--muted);stroke-width:1.5}
+.fig-line.s2{stroke:var(--series-2)}
+.fig-legend{display:flex;justify-content:center;gap:16px;font-family:var(--en);font-size:13px;color:var(--ink);margin-top:2px}
+.fig-legend span{display:inline-flex;align-items:center;gap:6px}
+.fig-key{display:inline-block;width:18px;height:0;border-top:2px solid var(--series);border-radius:2px}
+.fig-key.s2{border-top-color:var(--series-2)}
+/* 確認問題の種類：筆者の意図 */
+.fig-leader{stroke:var(--muted);stroke-width:1}

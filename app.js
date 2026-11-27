@@ -392,12 +392,12 @@ function figure(f) {
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", f.title || "graph");
   svg.setAttribute("class", "fig-svg");
-  // 目もりと補助線（うすい1px）
-  for (let y = 0; y <= f.yMax + 1e-9; y += f.yStep) {
+  // 目もりと補助線（うすい1px）。hideTicks のときは、じくだけ（需要と供給のような考え方のグラフ）
+  if (!f.hideTicks) for (let y = 0; y <= f.yMax + 1e-9; y += f.yStep) {
     add(svg, "line", { x1: L, x2: W - R, y1: sy(y), y2: sy(y), class: "fig-grid" });
     add(svg, "text", { x: L - 6, y: sy(y) + 4, class: "fig-tick", "text-anchor": "end" }, String(y));
   }
-  for (let x = 0; x <= f.xMax + 1e-9; x += f.xStep) {
+  if (!f.hideTicks) for (let x = 0; x <= f.xMax + 1e-9; x += f.xStep) {
     add(svg, "line", { x1: sx(x), x2: sx(x), y1: T, y2: H - B, class: "fig-grid" });
     add(svg, "text", { x: sx(x), y: H - B + 16, class: "fig-tick", "text-anchor": "middle" }, String(x));
   }
@@ -421,6 +421,14 @@ function figure(f) {
     const [[a, b], [c, d]] = f.line;
     add(svg, "line", { x1: sx(a), y1: sy(b), x2: sx(c), y2: sy(d), class: "fig-line" });
   }
+  // 2本以上の線：それぞれ色（slot）と名前のラベル。名前は文字色で、線の色だけにたよらない
+  for (const ln of f.lines || []) {
+    const [[a, b], [c, d]] = ln.pts;
+    const g = add(svg, "g", {});
+    add(g, "title", {}, ln.label);
+    add(g, "line", { x1: sx(a), y1: sy(b), x2: sx(c), y2: sy(d), class: "fig-line s" + (ln.slot || 1) });
+    if (ln.labelAt) add(svg, "text", { x: sx(ln.labelAt[0]), y: sy(ln.labelAt[1]), class: "fig-note fig-strong" }, ln.label);
+  }
   for (const [x, y] of f.points || []) {
     const g = add(svg, "g", {});
     add(g, "title", {}, `(${x}, ${y})`);
@@ -428,9 +436,19 @@ function figure(f) {
     if (f.pointLabels) add(g, "text", { x: sx(x) - 8, y: sy(y) - 10, class: "fig-note", "text-anchor": "end" }, String(y));
   }
   for (const n of f.notes || []) {
-    add(svg, "text", { x: sx(n.at[0]) + (n.dx || 0), y: sy(n.at[1]) + (n.dy || 0), class: "fig-note fig-strong" }, n.text);
+    // pos＝文字を置く場所（データの座標）、at＋dx/dy＝点からのずらし。leaderTo があれば点まで細い線を引く
+    const tx = n.pos ? sx(n.pos[0]) : sx(n.at[0]) + (n.dx || 0);
+    const ty = n.pos ? sy(n.pos[1]) : sy(n.at[1]) + (n.dy || 0);
+    const t = add(svg, "text", { x: tx, y: ty, class: "fig-note fig-strong" }, n.text);
+    if (n.leaderTo) {
+      const w = t.getComputedTextLength ? (t.getComputedTextLength() || n.text.length * 7) : n.text.length * 7;
+      add(svg, "line", { x1: tx + w + 4, y1: ty - 4, x2: sx(n.leaderTo[0]) - 7, y2: sy(n.leaderTo[1]), class: "fig-leader" });
+    }
   }
-  return el("figure", { class: "fig", lang: "en" }, svg, f.title ? el("figcaption", { text: f.title }) : null);
+  // 線が2本以上なら凡例（色の短い線＋名前）
+  const legend = (f.lines || []).length > 1 ? el("div", { class: "fig-legend" }, f.lines.map((ln) =>
+    el("span", {}, el("i", { class: "fig-key s" + (ln.slot || 1), "aria-hidden": "true" }), ln.label))) : null;
+  return el("figure", { class: "fig", lang: "en" }, svg, legend, f.title ? el("figcaption", { text: f.title }) : null);
 }
 
 /* ---- TOEFL対策：このお話の単語リスト（ボタンで開く） ---- */
@@ -463,7 +481,7 @@ function wordList() {
 }
 
 /* ---- TOEFL対策：確認問題 ---- */
-const QTYPE = { main: "主な内容", detail: "内容の確認", vocab: "単語の意味", infer: "推測", not: "あてはまらないもの", ctw: "単語を完成させる（Complete the Words）" };
+const QTYPE = { purpose: "筆者の意図", main: "主な内容", detail: "内容の確認", vocab: "単語の意味", infer: "推測", not: "あてはまらないもの", ctw: "単語を完成させる（Complete the Words）" };
 function quizSection() {
   const wrap = el("section", { class: "quiz" });
   const build = () => {
