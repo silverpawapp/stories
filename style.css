@@ -49,7 +49,7 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .help .help-bubble{width:28px;height:24px;margin:0 2px;cursor:default;vertical-align:-6px}
 .help .help-bubble svg{width:18px;height:18px}
 .level{display:flex;align-items:baseline;gap:10px;margin:22px 0 10px;font-size:16px}
-.level-name{font-family:var(--ja);font-size:20px;font-weight:700;padding:2px 12px;border-radius:999px}
+.level-name{font-family:var(--ja);font-size:20px;font-weight:700;white-space:nowrap;padding:2px 12px;border-radius:999px}
 .level-note{font-size:14px;font-weight:400;color:var(--muted)}
 .lv1 .level-name{background:#dcf1e4;color:#14532d}
 .lv2 .level-name{background:#dbe7f8;color:#173f7a}
@@ -144,3 +144,92 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 @media (min-width:700px){
   .text p{font-size:22px}
 }
+
+/* ホーム（2つのコーナー） */
+.home-lead{font-size:16px;line-height:1.7;margin:10px 2px 14px}
+.sec-btn{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:16px;border:2px solid var(--line);background:var(--surface);border-radius:18px;cursor:pointer;margin:0 0 12px}
+.sec-mark{flex:0 0 56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.sec-mark svg{width:32px;height:32px}
+.sec-mark.pic-stories{background:#fff0cf;color:#8a5200}
+.sec-mark.pic-toefl{background:#e3ddf7;color:#4b2a8a}
+.h3-pic{display:inline-flex;vertical-align:-3px;margin-right:6px}
+.h3-pic svg{width:18px;height:18px}
+.h3-pic.pic-stories{color:#8a5200}
+.h3-pic.pic-toefl{color:#4b2a8a}
+.sec-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.sec-name{font-size:22px;font-weight:700;line-height:1.4}
+.sec-desc{font-size:15px;line-height:1.6;color:var(--muted);margin-top:2px}
+.sec-count{font-size:14px;font-weight:700;color:var(--muted);margin-top:4px}
+.sec-go{flex:0 0 auto;font-size:20px;font-weight:700;color:var(--muted)}
+@media (prefers-color-scheme: dark){.sec-mark.pic-stories{background:#3a2c10;color:#ffd98a}.sec-mark.pic-toefl{background:#2c2550;color:#dccfff}.h3-pic.pic-stories{color:#ffd98a}.h3-pic.pic-toefl{color:#dccfff}}
+.howto{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:18px 0 12px;font-size:15px;line-height:1.7}
+.howto h2{font-size:18px;margin:0 0 6px}
+.howto h3{font-size:16px;margin:12px 0 4px}
+.howto ol{margin:0;padding-left:1.4em}
+.howto li{margin:0 0 4px}
+.howto-note{margin:10px 0 0;color:var(--muted);font-size:14px}
+
+/* 教科のしるし（アイコンのかわり） */
+.subj-badge{flex:0 0 88px;width:88px;height:88px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;border:1px solid var(--line)}
+.subj-sci{background:#dcf1e4;color:#14532d}
+.subj-soc{background:#f6e0d4;color:#7a2e0e}
+.subj-math{background:#dbe7f8;color:#173f7a}
+.subj-x{background:var(--surface2);color:var(--muted)}
+@media (prefers-color-scheme: dark){.subj-sci{background:#183a28;color:#c9f0d6}.subj-soc{background:#4a2414;color:#ffd6c2}.subj-math{background:#1d3150;color:#c7dcff}}
+
+/* TOEFL対策：単語の色（緑＝教科の単語、紫＝どの教科にも出る単語） */
+.w.w-subj{color:#14532d;background:#dcf1e4;border-bottom-color:#2f9e5f}
+.w.w-acad{color:#4b2a8a;background:#ebe4fb;border-bottom-color:#7c5cd6}
+.w.w-subj.seen,.w.w-acad.seen{background:transparent}
+@media (prefers-color-scheme: dark){.w.w-subj{color:#c9f0d6;background:#183a28}.w.w-acad{color:#dccfff;background:#2c2550}}
+
+/* TOEFL対策：1行に1文 */
+.text.block p.sent{margin:0 0 6px}
+.text.block p.pgap{margin-top:18px}
+
+/* TOEFL対策：このブロックの単語 */
+.wordlist{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:18px 0 12px}
+.wordlist h2{font-size:18px;margin:0 0 4px}
+.wordlist h3{font-size:15px;margin:10px 0 4px;padding-left:8px;border-left:4px solid}
+.wl-subj{border-color:#2f9e5f !important}
+.wl-acad{border-color:#7c5cd6 !important}
+.wl{list-style:none;margin:0;padding:0}
+.wl li{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.5}
+.wl li:last-child{border-bottom:0}
+.wl-en{flex:0 0 40%;font-family:var(--en);font-weight:700;overflow-wrap:anywhere}
+.wl-ja{flex:1;min-width:0}
+
+/* TOEFL対策：確認問題 */
+.quiz{margin:22px 0 12px}
+.quiz h2{font-size:20px;margin:0 0 4px}
+.q-lead{font-size:14px;color:var(--muted);margin:0 0 10px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
+.q-head{display:flex;gap:8px;align-items:baseline;margin-bottom:4px}
+.q-num{font-weight:700;font-size:16px}
+.q-type{font-size:13px;color:var(--muted);background:var(--surface2);border-radius:999px;padding:0 8px}
+.q-text{font-size:18px;line-height:1.6;margin:0 0 8px}
+.q-text[lang="en"]{font-family:var(--en);font-size:19px}
+.q-tr-c{display:block;margin-top:2px}
+.q-chs{display:flex;flex-direction:column;gap:8px}
+.q-ch{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;min-height:48px;padding:10px 12px;border:2px solid var(--line);background:var(--surface2);border-radius:12px;font-family:var(--en);font-size:18px;line-height:1.45;cursor:pointer}
+.q-ch:disabled{cursor:default;opacity:1}
+.q-letter{flex:0 0 auto;font-weight:700;color:var(--muted)}
+.q-ch.ok{border-color:#2f9e5f;background:#dcf1e4}
+.q-ch.ng{border-color:#c2410c;background:#fde3d6}
+@media (prefers-color-scheme: dark){.q-ch.ok{background:#183a28}.q-ch.ng{background:#4a2414}}
+.q-res{margin-top:10px;font-size:16px;line-height:1.7}
+.q-res p{margin:0 0 4px}
+.q-verdict{font-weight:700}
+.q-verdict.ok{color:#15803d}
+.q-verdict.ng{color:#c2410c}
+.ctw{font-family:var(--en);font-size:20px;line-height:2.1;margin:4px 0 10px}
+.ctw-in{font-family:var(--en);font-size:19px;padding:1px 2px;margin:0;border:0;border-bottom:2px solid var(--accent);background:var(--accent-soft);border-radius:4px;color:var(--ink);letter-spacing:.05em}
+.ctw-in.ok{border-color:#2f9e5f;background:#dcf1e4}
+.ctw-in.ng{border-color:#c2410c;background:#fde3d6;text-decoration:line-through}
+.ctw-ans{font-weight:700;color:#15803d;margin-left:2px}
+.q-check,.q-retry{min-height:48px;padding:0 18px;border:0;border-radius:12px;background:var(--primary);color:var(--primary-ink);font-size:17px;font-weight:700;cursor:pointer}
+.q-check:disabled{opacity:.45;cursor:default}
+.q-score{background:var(--primary-soft);border-radius:14px;padding:12px 14px;font-size:16px}
+.q-score p{margin:0 0 8px}
+.q-score-n{font-size:22px;font-weight:700}
+.ctw-w{white-space:nowrap}
