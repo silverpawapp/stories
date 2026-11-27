@@ -273,3 +273,18 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .flow li:not(:last-child)::after{content:"→";color:var(--muted);margin:0 2px 0 4px}
 .flow-n{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#7c5cd6;color:#fff;font-size:12px}
 @media (prefers-color-scheme: dark){.flow-pill{background:#2c2550;color:#dccfff}}
+
+/* グラフ（数学など）：線は2px、点は直径10px＋2pxのふち、補助線は1px */
+.fig{margin:-6px 0 18px;padding:8px 6px 6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);--series:#257de0}
+@media (prefers-color-scheme: dark){.fig{--series:#338ced}}
+.fig-svg{display:block;width:100%;height:auto;max-width:460px;margin:0 auto}
+.fig figcaption{text-align:center;font-family:var(--en);font-size:14px;color:var(--muted);margin-top:2px}
+.fig-grid{stroke:var(--line);stroke-width:1}
+.fig-axis{stroke:var(--muted);stroke-width:1.2}
+.fig-tick{fill:var(--muted);font-size:12px;font-family:var(--en)}
+.fig-label{fill:var(--ink);font-size:13px;font-weight:700;font-family:var(--en)}
+.fig-note{fill:var(--ink);font-size:12px;font-family:var(--en)}
+.fig-strong{font-weight:700}
+.fig-line{stroke:var(--series);stroke-width:2;stroke-linecap:round}
+.fig-dot{fill:var(--series);stroke:var(--surface);stroke-width:2}
+.fig-slope{fill:none;stroke:var(--muted);stroke-width:1.5}
