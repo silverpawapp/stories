@@ -117,7 +117,7 @@ async function showHome() {
         step("意味がとれない段落だけ、段落の最後の訳ボタンで確かめます。"),
         step("もう一度音声を流し、音声のすぐあとについて声に出して読んでみましょう。"),
         step("題名の下の「このお話の単語リスト」で単語を復習します。特に紫の単語は、TOEFLのいろいろな文章に出てくるので優先して覚えましょう。"),
-        step("最後に確認問題（5問）に答えます。まちがえた問題は解説を読み、本文のどこに答えがあるか探しましょう。")),
+        step("最後に確認問題に答えます。まちがえた問題は解説を読み、本文のどこに答えがあるか探しましょう。")),
       el("p", { class: "howto-note", text: "TOEFL対策の文章は、日本の学校で習う内容をもとにしています。内容を日本語で知っているので、英語そのものに集中できます。" })),
     el("div", { class: "credit" },
       el("p", { text: "お話は英語学習のために作ったフィクションです。偉人へのインタビューや登場人物の会話は、史実や言い伝えをもとに想像して書いたもので、本人が実際に話した言葉ではありません。" }),
@@ -131,7 +131,7 @@ async function showHome() {
 function storyCard(s) {
   // TOEFL対策：小さなカード（教科の頭文字＋番号のしるしと、英語の題名だけ）
   if (s.section === "toefl") {
-    const mark = ({ sci: "理", soc: "社", math: "数" })[s.subjectKey] || (s.subject || "").slice(0, 1);
+    const mark = ({ sci: "理", soc: "社", math: "数", daily: "日" })[s.subjectKey] || (s.subject || "").slice(0, 1);
     const num = (s.code || "").slice(-2);
     return el("button", { class: "story-btn compact", type: "button", onclick: () => openStory(s), "aria-label": s.subject + num + "　" + s.title },
       el("span", { class: "subj-badge mini subj-" + (s.subjectKey || "x"), "aria-hidden": "true", text: mark + num }),
@@ -156,7 +156,7 @@ async function showList(sec) {
   const GROUPS = toefl ? [
     [1, "ステップ1", "英検3級〜準2級。約100語の短い文章"],
     [2, "ステップ2", "英検準2級〜2級。約150語"],
-    [3, "ステップ3", "英検2級〜準1級。約200語。TOEFLの文章に近い形"],
+    [3, "ステップ3", "英検2級〜準1級。約200語の文章と、メール・お知らせなど日常の文章。TOEFLと同じ形の問題"],
   ] : [
     [1, "初級", "短い会話。文が短く、やさしい単語が中心"],
     [2, "中級", "少し長い会話や、章に分かれた文章"],
@@ -180,7 +180,7 @@ async function showList(sec) {
       el("p", {}, "色の付いた単語をタップすると意味が出ます。",
         el("span", { class: "w w-subj", style: "cursor:default", text: "緑" }), "＝その教科の単語、",
         el("span", { class: "w w-acad", style: "cursor:default", text: "紫" }), "＝どの教科にもよく出る単語。"),
-      el("p", {}, "段落の最後の", helpBubble(), "を押すと、その段落の日本語訳が出ます。題名の下のボタンで単語リスト、本文のあとに確認問題（5問）があります。"))
+      el("p", {}, "段落の最後の", helpBubble(), "を押すと、その段落の日本語訳が出ます。題名の下のボタンで単語リスト、本文のあとに確認問題があります。"))
     : el("div", { class: "help" },
       el("p", {}, "色の付いた単語（",
         el("span", { class: "w", style: "cursor:default", text: "example" }),
@@ -296,7 +296,15 @@ function showChapter() {
     return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: SHORT_WHO[m[1]] || m[1], title: m[1] }),
       el("span", { class: "say" }, ...segs(p.slice(1)), box ? trBtn(box) : null, box));
   };
-  const text = el("div", { class: "text" + (talk ? " talk" : "") + (block ? " block" : ""), lang: "en" }, block ? paragraphs() : ch.paras.map(line));
+  // 日常の文章（Daily Life）：メールやお知らせの見た目のカードに入れる（story.doc）
+  const docCard = (d) => {
+    const head = d.kind === "email" && d.head ? el("div", { class: "doc-head" },
+      d.head.map(([k, v]) => el("div", { class: "doc-row" }, el("span", { class: "doc-k", text: k + ":" }), el("span", { class: "doc-v" }, ...segs(v)))))
+      : d.heading ? el("div", { class: "doc-heading" }, ...segs(d.heading)) : null;
+    return el("div", { class: "doc doc-" + (d.kind || "notice") }, head, el("div", { class: "doc-body" }, paragraphs()));
+  };
+  const text = el("div", { class: "text" + (talk ? " talk" : "") + (block ? " block" : ""), lang: "en" },
+    block ? (story.doc ? docCard(story.doc) : paragraphs()) : ch.paras.map(line));
   // 話し手の札は、いちばん長い名前（Mr. Brown・Nightingale など）に幅をそろえる
   if (talk) requestAnimationFrame(() => {
     const ws = [...text.querySelectorAll(".who")];
@@ -496,7 +504,7 @@ function wordList() {
 }
 
 /* ---- TOEFL対策：確認問題 ---- */
-const QTYPE = { purpose: "筆者の意図", main: "主な内容", detail: "内容の確認", vocab: "単語の意味", infer: "推測", not: "あてはまらないもの", ctw: "単語を完成させる（Complete the Words）" };
+const QTYPE = { goal: "文章の目的", purpose: "筆者の意図", main: "主な内容", detail: "内容の確認", vocab: "単語の意味", infer: "推測", not: "あてはまらないもの", ctw: "単語を完成させる（Complete the Words）" };
 function quizSection() {
   const wrap = el("section", { class: "quiz" });
   const build = () => {

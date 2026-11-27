@@ -1,5 +1,5 @@
 /* 電波がなくても使えるようにするしくみ。アプリやお話を直したら VERSION を上げる */
-const VERSION = "2026-11-27u";
+const VERSION = "2026-11-27v";
 const CACHE = "ondoku-" + VERSION;
 const AUDIO = "ondoku-audio";   // 音声は版が変わっても消さない（一度聞いたチャプターを保存）
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
@@ -23,7 +23,8 @@ const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest"
   "stories/TFL01-mt01_percent/story.json", "stories/TFL01-mt02_proportion/story.json", "stories/TFL01-mt03_average/story.json", "stories/TFL01-mt04_pi/story.json",
   "stories/TFL02-mt01_mathsymbols/story.json", "stories/TFL02-mt02_algebra/story.json",
   "stories/TFL02-sc01_cells/story.json", "stories/TFL02-sc02_volcanoes/story.json", "stories/TFL02-sc03_warming/story.json", "stories/TFL02-ss01_zones/story.json", "stories/TFL02-ss02_industrial/story.json", "stories/TFL02-ss03_supply/story.json",
-  "stories/TFL02-sc04_circuits/story.json", "stories/TFL02-sc05_heredity/story.json", "stories/TFL02-sc06_atoms/story.json", "stories/TFL02-ss04_timezones/story.json", "stories/TFL02-ss05_exploration/story.json", "stories/TFL02-ss06_powers/story.json", "stories/TFL02-mt03_pythagoras/story.json", "stories/TFL02-mt04_probability/story.json"];
+  "stories/TFL02-sc04_circuits/story.json", "stories/TFL02-sc05_heredity/story.json", "stories/TFL02-sc06_atoms/story.json", "stories/TFL02-ss04_timezones/story.json", "stories/TFL02-ss05_exploration/story.json", "stories/TFL02-ss06_powers/story.json", "stories/TFL02-mt03_pythagoras/story.json", "stories/TFL02-mt04_probability/story.json",
+  "stories/TFL03-sc01_birds/story.json", "stories/TFL03-dl01_library/story.json", "stories/TFL03-dl02_fieldtrip/story.json"];
 
 self.addEventListener("install", (e) => {
   // ブラウザやGitHub Pagesの一時保存（最大10分）に残った古いファイルを使わないよう、必ずサーバーから取り直す

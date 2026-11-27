@@ -174,8 +174,9 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .subj-sci{background:#dcf1e4;color:#14532d}
 .subj-soc{background:#f6e0d4;color:#7a2e0e}
 .subj-math{background:#dbe7f8;color:#173f7a}
+.subj-daily{background:#f3e8c8;color:#6b4300}
 .subj-x{background:var(--surface2);color:var(--muted)}
-@media (prefers-color-scheme: dark){.subj-sci{background:#183a28;color:#c9f0d6}.subj-soc{background:#4a2414;color:#ffd6c2}.subj-math{background:#1d3150;color:#c7dcff}}
+@media (prefers-color-scheme: dark){.subj-daily{background:#3a2c10;color:#ffd98a}.subj-sci{background:#183a28;color:#c9f0d6}.subj-soc{background:#4a2414;color:#ffd6c2}.subj-math{background:#1d3150;color:#c7dcff}}
 
 /* TOEFL対策：単語の色（緑＝教科の単語、紫＝どの教科にも出る単語） */
 .w.w-subj{color:#14532d;background:#dcf1e4;border-bottom-color:#2f9e5f}
@@ -296,3 +297,13 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .fig-key.s2{border-top-color:var(--series-2)}
 /* 確認問題の種類：筆者の意図 */
 .fig-leader{stroke:var(--muted);stroke-width:1}
+
+/* 日常の文章（Daily Life）：メールとお知らせのカード */
+.doc{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;margin:4px 0 18px}
+.doc-head{background:var(--surface2);border-bottom:1px solid var(--line);padding:10px 14px;font-size:16px;line-height:1.5}
+.doc-row{display:flex;gap:8px}
+.doc-k{flex:0 0 4.6em;color:var(--muted);font-weight:700}
+.doc-v{flex:1;min-width:0}
+.doc-heading{text-align:center;font-weight:700;letter-spacing:.04em;padding:12px 14px;border-bottom:2px solid var(--accent);background:var(--accent-soft)}
+.doc-body{padding:14px 14px 0}
+.doc-notice{border-width:2px}
