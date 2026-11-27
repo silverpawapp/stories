@@ -378,8 +378,15 @@ function segs(list) {
 function figure(f) {
   const NS = "http://www.w3.org/2000/svg";
   const W = 340, H = 250, L = 50, R = 18, T = 18, B = 48;
-  const sx = (x) => L + (x / f.xMax) * (W - L - R);
-  const sy = (y) => H - B - (y / f.yMax) * (H - T - B);
+  let sx = (x) => L + (x / f.xMax) * (W - L - R);
+  let sy = (y) => H - B - (y / f.yMax) * (H - T - B);
+  // 図形（type "shape"）：目もりとじくをかかず、縦と横を同じ縮尺にして真ん中に置く（直角三角形など）
+  const shape = f.type === "shape";
+  if (shape) {
+    const k = Math.min((W - 80) / f.xMax, (H - 50) / f.yMax), ox = (W - k * f.xMax) / 2, oy = (H + k * f.yMax) / 2;
+    sx = (x) => ox + x * k;
+    sy = (y) => oy - y * k;
+  }
   const svg = document.createElementNS(NS, "svg");
   const add = (parent, tag, attrs, text) => {
     const n = document.createElementNS(NS, tag);
@@ -393,19 +400,27 @@ function figure(f) {
   svg.setAttribute("aria-label", f.title || "graph");
   svg.setAttribute("class", "fig-svg");
   // 目もりと補助線（うすい1px）。hideTicks のときは、じくだけ（需要と供給のような考え方のグラフ）
-  if (!f.hideTicks) for (let y = 0; y <= f.yMax + 1e-9; y += f.yStep) {
+  if (!f.hideTicks && !shape) for (let y = 0; y <= f.yMax + 1e-9; y += f.yStep) {
     add(svg, "line", { x1: L, x2: W - R, y1: sy(y), y2: sy(y), class: "fig-grid" });
     add(svg, "text", { x: L - 6, y: sy(y) + 4, class: "fig-tick", "text-anchor": "end" }, String(y));
   }
-  if (!f.hideTicks) for (let x = 0; x <= f.xMax + 1e-9; x += f.xStep) {
+  if (!f.hideTicks && !shape) for (let x = 0; x <= f.xMax + 1e-9; x += f.xStep) {
     add(svg, "line", { x1: sx(x), x2: sx(x), y1: T, y2: H - B, class: "fig-grid" });
     add(svg, "text", { x: sx(x), y: H - B + 16, class: "fig-tick", "text-anchor": "middle" }, String(x));
   }
-  // じく
-  add(svg, "line", { x1: L, x2: W - R, y1: sy(0), y2: sy(0), class: "fig-axis" });
-  add(svg, "line", { x1: L, x2: L, y1: T, y2: H - B, class: "fig-axis" });
-  add(svg, "text", { x: (L + W - R) / 2, y: H - 8, class: "fig-label", "text-anchor": "middle" }, f.xLabel);
-  add(svg, "text", { x: 14, y: (T + H - B) / 2, class: "fig-label", "text-anchor": "middle", transform: `rotate(-90 14 ${(T + H - B) / 2})` }, f.yLabel);
+  // じく（図形のときはかかない）
+  if (!shape) {
+    add(svg, "line", { x1: L, x2: W - R, y1: sy(0), y2: sy(0), class: "fig-axis" });
+    add(svg, "line", { x1: L, x2: L, y1: T, y2: H - B, class: "fig-axis" });
+    add(svg, "text", { x: (L + W - R) / 2, y: H - 8, class: "fig-label", "text-anchor": "middle" }, f.xLabel);
+    add(svg, "text", { x: 14, y: (T + H - B) / 2, class: "fig-label", "text-anchor": "middle", transform: `rotate(-90 14 ${(T + H - B) / 2})` }, f.yLabel);
+  }
+  // 図形：多角形（poly）と直角のしるし（rightAngle：at の角から右と上に size の正方形）
+  if (f.poly) add(svg, "path", { d: "M" + f.poly.map(([x, y]) => sx(x) + " " + sy(y)).join(" L") + " Z", class: "fig-line fig-shape" });
+  if (f.rightAngle) {
+    const [x0, y0] = f.rightAngle.at, r = f.rightAngle.size;
+    add(svg, "path", { d: `M${sx(x0 + r)} ${sy(y0)} V${sy(y0 + r)} H${sx(x0)}`, class: "fig-slope" });
+  }
   if (f.origin) add(svg, "text", { x: L + 22, y: sy(0) - 6, class: "fig-note" }, "origin");
   // 傾きの三角形（右へ run、上へ rise）
   if (f.slope) {
