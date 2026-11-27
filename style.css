@@ -175,6 +175,7 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .subj-soc{background:#f6e0d4;color:#7a2e0e}
 .subj-math{background:#dbe7f8;color:#173f7a}
 .subj-daily{background:#f3e8c8;color:#6b4300}
+.subj-tips{background:var(--accent-soft);color:var(--accent-ink);font-size:16px}
 .subj-x{background:var(--surface2);color:var(--muted)}
 @media (prefers-color-scheme: dark){.subj-daily{background:#3a2c10;color:#ffd98a}.subj-sci{background:#183a28;color:#c9f0d6}.subj-soc{background:#4a2414;color:#ffd6c2}.subj-math{background:#1d3150;color:#c7dcff}}
 
@@ -307,3 +308,18 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .doc-heading{text-align:center;font-weight:700;letter-spacing:.04em;padding:12px 14px;border-bottom:2px solid var(--accent);background:var(--accent-soft)}
 .doc-body{padding:14px 14px 0}
 .doc-notice{border-width:2px}
+
+/* コツのページ */
+.guide{font-size:16px;line-height:1.75}
+.guide-title{font-size:20px;margin:6px 0 8px}
+.guide-lead{background:var(--accent-soft);border-radius:12px;padding:10px 14px;margin:0 0 16px}
+.guide-sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px 4px;margin:0 0 14px}
+.guide-sec>h2{font-size:18px;margin:0 0 8px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+.tip{margin:0 0 12px}
+.tip-t{font-size:16px;margin:0 0 2px}
+.tip-d{margin:0}
+.tip-ex{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0 0;padding:8px 12px;background:var(--surface2);border-radius:10px;font-size:15px}
+.tip-ex dt{font-family:var(--en);font-weight:700}
+.tip-ex dd{margin:0}
+.guide-note{font-size:13px;margin:4px 0 20px}
+@media (max-width:420px){.tip-ex{grid-template-columns:1fr}.tip-ex dd{margin:0 0 6px}}

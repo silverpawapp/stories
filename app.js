@@ -88,7 +88,7 @@ async function showHome() {
   section = "home";
   startPage(APP_NAME, false);
   try { await loadIndex(); } catch (e) { return loadError(); }
-  const n = (sec) => stories.filter((s) => inSection(s, sec)).length;
+  const n = (sec) => stories.filter((s) => inSection(s, sec) && !s.guide).length;   // コツのページは数えない
   const goBtn = (sec, desc, unit) => el("button", { class: "sec-btn sec-" + sec, type: "button", onclick: () => showList(sec) },
     picto(sec, "sec-mark"),
     el("span", { class: "sec-txt" },
@@ -131,11 +131,11 @@ async function showHome() {
 function storyCard(s) {
   // TOEFL対策：小さなカード（教科の頭文字＋番号のしるしと、英語の題名だけ）
   if (s.section === "toefl") {
-    const mark = ({ sci: "理", soc: "社", math: "数", daily: "日" })[s.subjectKey] || (s.subject || "").slice(0, 1);
-    const num = (s.code || "").slice(-2);
-    return el("button", { class: "story-btn compact", type: "button", onclick: () => openStory(s), "aria-label": s.subject + num + "　" + s.title },
+    const mark = s.guide ? "コツ" : ({ sci: "理", soc: "社", math: "数", daily: "日" })[s.subjectKey] || (s.subject || "").slice(0, 1);
+    const num = s.guide ? "" : (s.code || "").slice(-2);
+    return el("button", { class: "story-btn compact", type: "button", onclick: () => openStory(s), "aria-label": (s.guide ? "コツ" : s.subject + num) + "　" + s.title },
       el("span", { class: "subj-badge mini subj-" + (s.subjectKey || "x"), "aria-hidden": "true", text: mark + num }),
-      el("span", { class: "t", lang: "en", text: s.title }));
+      el("span", { class: "t", lang: s.guide ? "ja" : "en", text: s.guide ? s.titleJa : s.title }));
   }
   const badge = s.subject ? el("span", { class: "subj-badge subj-" + (s.subjectKey || "x"), "aria-hidden": "true", text: s.subject }) : null;
   return el("button", { class: "story-btn", type: "button", onclick: () => openStory(s) },
@@ -194,6 +194,7 @@ async function showList(sec) {
 
 /* ---- お話を開く ---- */
 async function openStory(s) {
+  if (s.guide) return openGuide(s);
   storyBase = "stories/" + s.id + "/";
   storyInfo = s;
   main.replaceChildren(el("p", { class: "muted small", text: "読みこみ中…" }));
@@ -209,6 +210,34 @@ async function openStory(s) {
   const saved = parseInt(store("ch:" + s.id), 10);
   chIndex = Number.isInteger(saved) && saved >= 0 && saved < story.chapters.length ? saved : 0;
   showChapter();
+}
+
+/* ---- コツのページ（音声・問題なし。stories/<id>/guide.json） ---- */
+async function openGuide(s) {
+  stopAudio();
+  main.replaceChildren(el("p", { class: "muted small", text: "読みこみ中…" }));
+  let g;
+  try {
+    g = await getJSON("stories/" + s.id + "/guide.json");
+  } catch (e) {
+    main.replaceChildren(el("p", { text: "ページを読みこめませんでした。電波のある所で開き直してください。" }));
+    return;
+  }
+  story = { guide: true };   // もどるボタンで一覧にもどるため
+  storyInfo = s;
+  backBtn.hidden = false;
+  where.textContent = s.short || s.titleJa;
+  document.title = g.title + "｜" + APP_NAME;
+  const item = (it) => el("div", { class: "tip" },
+    el("h3", { class: "tip-t", text: it.t }),
+    el("p", { class: "tip-d", text: it.d }),
+    it.ex ? el("dl", { class: "tip-ex" }, it.ex.flatMap(([a, b]) => [el("dt", { lang: "en", text: a }), el("dd", { text: b })])) : null);
+  main.replaceChildren(el("article", { class: "guide" },
+    el("h2", { class: "guide-title", text: g.title }),
+    el("p", { class: "guide-lead", text: g.lead }),
+    ...g.sections.map((sec) => el("section", { class: "guide-sec" }, el("h2", { text: sec.h }), ...sec.items.map(item))),
+    g.note ? el("p", { class: "guide-note muted", text: g.note }) : null));
+  main.scrollTop = 0;
 }
 
 /* ---- チャプターの画面 ---- */
