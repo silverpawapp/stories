@@ -254,3 +254,8 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
   .q-verdict.ok{color:#4ade80}
   .q-verdict.ng{color:#fb923c}
 }
+
+/* TOEFL対策の一覧：小さなカード（英語の題名は2行まで） */
+.story-btn.compact{gap:12px;padding:10px 12px;margin:0 0 8px;border-radius:14px;min-height:64px}
+.subj-badge.mini{flex:0 0 52px;width:52px;height:52px;border-radius:12px;font-size:18px;letter-spacing:.02em}
+.story-btn.compact .t{flex:1;min-width:0;font-family:var(--en);font-size:18px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}

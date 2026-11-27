@@ -128,6 +128,14 @@ async function showHome() {
 }
 
 function storyCard(s) {
+  // TOEFL対策：小さなカード（教科の頭文字＋番号のしるしと、英語の題名だけ）
+  if (s.section === "toefl") {
+    const mark = ({ sci: "理", soc: "社", math: "数" })[s.subjectKey] || (s.subject || "").slice(0, 1);
+    const num = (s.code || "").slice(-2);
+    return el("button", { class: "story-btn compact", type: "button", onclick: () => openStory(s), "aria-label": s.subject + num + "　" + s.title },
+      el("span", { class: "subj-badge mini subj-" + (s.subjectKey || "x"), "aria-hidden": "true", text: mark + num }),
+      el("span", { class: "t", lang: "en", text: s.title }));
+  }
   const badge = s.subject ? el("span", { class: "subj-badge subj-" + (s.subjectKey || "x"), "aria-hidden": "true", text: s.subject }) : null;
   return el("button", { class: "story-btn", type: "button", onclick: () => openStory(s) },
     s.icon ? el("img", { class: "story-icon", src: s.icon, alt: "", width: "88", height: "88" }) : badge,
