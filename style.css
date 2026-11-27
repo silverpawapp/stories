@@ -233,3 +233,4 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .q-score p{margin:0 0 8px}
 .q-score-n{font-size:22px;font-weight:700}
 .ctw-w{white-space:nowrap}
+.empty-msg{font-size:16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:14px;margin:12px 0}

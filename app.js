@@ -172,7 +172,8 @@ async function showList(sec) {
         "）をタップすると、その文での意味が出ます。"),
       el("p", {}, "会話のお話では、せりふの横の", helpBubble(),
         "を押すと、そのせりふの日本語訳が出ます。ほかのお話では、チャプターの最後の「日本語訳を見る」で訳が出ます。"));
-  main.replaceChildren(help, ...list);
+  const empty = list.length ? null : el("p", { class: "empty-msg", text: "まだここに表示できる文章がありません。少したってから開き直してください。" });
+  main.replaceChildren(help, ...list, empty);
   main.scrollTop = 0;
 }
 

@@ -1,5 +1,5 @@
 /* 電波がなくても使えるようにするしくみ。アプリやお話を直したら VERSION を上げる */
-const VERSION = "2026-11-27b";
+const VERSION = "2026-11-27d";
 const CACHE = "ondoku-" + VERSION;
 const AUDIO = "ondoku-audio";   // 音声は版が変わっても消さない（一度聞いたチャプターを保存）
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
@@ -45,6 +45,13 @@ self.addEventListener("fetch", (e) => {
         return;
       }
       e.respondWith(audioResponse(e, url.href, req.headers.get("range")));
+    } else if (/\/stories\/index\.json$/.test(url.pathname)) {
+      // お話の一覧：ネットにあれば新しいものを使い、保存し直す（電波がなければ保存したもの）
+      // （一覧だけアップロードが遅れても、VERSION を上げ直さずに新しい一覧が出るように）
+      e.respondWith(fetch(req, { cache: "no-store" }).then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put("stories/index.json", copy)); }
+        return res.ok ? res : caches.match(req, { ignoreSearch: true }).then((hit) => hit || res);
+      }).catch(() => caches.match(req, { ignoreSearch: true })));
     } else {
       // 自分のファイル：保存したものを使う（新しい版は VERSION を上げて届ける）
       e.respondWith(caches.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req)));
