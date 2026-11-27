@@ -111,10 +111,11 @@ async function showHome() {
         step("「ちょっとむずかしい」くらいのレベルを選び、1日1チャプターでも毎日つづけましょう。")),
       el("h3", {}, picto("toefl", "h3-pic"), "TOEFL対策"),
       el("ol", {},
-        step("まず音声なしで1回読みます。知らない単語があっても止まらず、前後の文から意味を考えましょう（TOEFLの本番と同じ読み方）。"),
+        step("まず音声を1回聞きながら、英語の文字を目で追います。正しい発音を先に耳に入れておくと、まちがった読み方で覚えずにすみます。"),
+        step("次に、音声なしで自分で読みます。知らない単語があっても止まらず、前後の文から意味を考えましょう（TOEFLの本番と同じ読み方）。"),
         step("色の付いた単語をタップして確かめます。緑はその教科の単語、紫はどの教科の文章にもよく出る単語です。"),
         step("意味がとれない段落だけ、段落の最後の訳ボタンで確かめます。"),
-        step("音声を聞きながら、もう一度読みます。"),
+        step("もう一度音声を流し、音声のすぐあとについて声に出して読んでみましょう。"),
         step("題名の下の「このお話の単語リスト」で単語を復習します。特に紫の単語は、TOEFLのいろいろな文章に出てくるので優先して覚えましょう。"),
         step("最後に確認問題（5問）に答えます。まちがえた問題は解説を読み、本文のどこに答えがあるか探しましょう。")),
       el("p", { class: "howto-note", text: "TOEFL対策の文章は、日本の学校で習う内容をもとにしています。内容を日本語で知っているので、英語そのものに集中できます。" })),
@@ -168,6 +169,12 @@ async function showList(sec) {
     return [el("h2", { class: "level lv" + lv }, el("span", { class: "level-name", text: name }),
       el("span", { class: "level-note", text: note })), ...items.map(storyCard)];
   });
+  // TOEFL対策の進め方（ホームの活用方法と同じ順番）
+  const FLOW = ["聞く", "読む", "単語を確認", "訳を確認", "もう一度聞いて声に出す", "単語リスト", "確認問題"];
+  const flow = toefl ? el("div", { class: "flow-box" },
+    el("p", { class: "flow-title", text: "1つの文章の進め方" }),
+    el("ol", { class: "flow" }, FLOW.map((t, i) => el("li", {},
+      el("span", { class: "flow-pill" }, el("span", { class: "flow-n", text: String(i + 1) }), el("span", { text: t })))))) : null;
   const help = toefl
     ? el("div", { class: "help" },
       el("p", {}, "色の付いた単語をタップすると意味が出ます。",
@@ -181,7 +188,7 @@ async function showList(sec) {
       el("p", {}, "会話のお話では、せりふの横の", helpBubble(),
         "を押すと、そのせりふの日本語訳が出ます。ほかのお話では、チャプターの最後の「日本語訳を見る」で訳が出ます。"));
   const empty = list.length ? null : el("p", { class: "empty-msg", text: "まだここに表示できる文章がありません。少したってから開き直してください。" });
-  main.replaceChildren(...[help, ...list, empty].filter(Boolean));
+  main.replaceChildren(...[flow, help, ...list, empty].filter(Boolean));
   main.scrollTop = 0;
 }
 
@@ -266,6 +273,11 @@ function showChapter() {
       const idx = [];
       for (let i = starts[k]; i < starts[k + 1]; i++) idx.push(i);
       if (!idx.length) continue;
+      // 式の行（$ で書いた行）は、黒板のように1行で見せる
+      if (idx.length === 1 && (story.eqs || []).includes(idx[0])) {
+        out.push(el("div", { class: "eq" }, ...segs(ch.paras[idx[0]])));
+        continue;
+      }
       const body = idx.flatMap((i, n) => (n ? [document.createTextNode(" "), ...segs(ch.paras[i])] : segs(ch.paras[i])));
       const ja = idx.map((i) => ch.ja[i] || "").join("");
       const box = ja ? trBox(ja) : null;
