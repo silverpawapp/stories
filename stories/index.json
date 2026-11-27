@@ -162,6 +162,38 @@
       "icon": "stories/einstein/icon.png",
       "titleTr": "アルベルト・アインシュタイン　私の人生",
       "level": 3
+    },
+    {
+      "id": "plants",
+      "section": "toefl",
+      "subject": "理科",
+      "subjectKey": "sci",
+      "step": 1,
+      "title": "How Do Plants Make Food?",
+      "subtitle": "Science: Photosynthesis",
+      "titleJa": "植物はどうやって養分をつくるの？（光合成）",
+      "short": "理科：光合成",
+      "chapters": 1,
+      "meta": "約110語・確認問題5問",
+      "titleTr": "植物はどうやって養分をつくるの？",
+      "subtitleTr": "理科：光合成",
+      "code": "TFL01-sc01"
+    },
+    {
+      "id": "rice",
+      "section": "toefl",
+      "subject": "社会",
+      "subjectKey": "soc",
+      "step": 1,
+      "title": "How Did Rice Farming Change Japan?",
+      "subtitle": "Social Studies: The Yayoi Period",
+      "titleJa": "稲作は日本をどう変えた？（弥生時代）",
+      "short": "社会：弥生時代",
+      "chapters": 1,
+      "meta": "約120語・確認問題5問",
+      "titleTr": "稲作は日本をどう変えたの？",
+      "subtitleTr": "社会：弥生時代",
+      "code": "TFL01-ss01"
     }
   ]
 }
