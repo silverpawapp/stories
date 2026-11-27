@@ -113,9 +113,9 @@ async function showHome() {
       el("ol", {},
         step("まず音声なしで1回読みます。知らない単語があっても止まらず、前後の文から意味を考えましょう（TOEFLの本番と同じ読み方）。"),
         step("色の付いた単語をタップして確かめます。緑はその教科の単語、紫はどの教科の文章にもよく出る単語です。"),
-        step("意味がとれない文だけ、文の横の訳ボタンで確かめます。"),
+        step("意味がとれない段落だけ、段落の最後の訳ボタンで確かめます。"),
         step("音声を聞きながら、もう一度読みます。"),
-        step("「このブロックの単語」で復習します。特に紫の単語は、TOEFLのいろいろな文章に出てくるので優先して覚えましょう。"),
+        step("題名の下の「このお話の単語リスト」で単語を復習します。特に紫の単語は、TOEFLのいろいろな文章に出てくるので優先して覚えましょう。"),
         step("最後に確認問題（5問）に答えます。まちがえた問題は解説を読み、本文のどこに答えがあるか探しましょう。")),
       el("p", { class: "howto-note", text: "TOEFL対策の文章は、日本の学校で習う内容をもとにしています。内容を日本語で知っているので、英語そのものに集中できます。" })),
     el("div", { class: "credit" },
@@ -165,7 +165,7 @@ async function showList(sec) {
       el("p", {}, "色の付いた単語をタップすると意味が出ます。",
         el("span", { class: "w w-subj", style: "cursor:default", text: "緑" }), "＝その教科の単語、",
         el("span", { class: "w w-acad", style: "cursor:default", text: "紫" }), "＝どの教科にもよく出る単語。"),
-      el("p", {}, "文の横の", helpBubble(), "を押すと、その文の日本語訳が出ます。本文のあとに単語の一覧と、確認問題（5問）があります。"))
+      el("p", {}, "段落の最後の", helpBubble(), "を押すと、その段落の日本語訳が出ます。題名の下のボタンで単語リスト、本文のあとに確認問題（5問）があります。"))
     : el("div", { class: "help" },
       el("p", {}, "色の付いた単語（",
         el("span", { class: "w", style: "cursor:default", text: "example" }),
@@ -173,7 +173,7 @@ async function showList(sec) {
       el("p", {}, "会話のお話では、せりふの横の", helpBubble(),
         "を押すと、そのせりふの日本語訳が出ます。ほかのお話では、チャプターの最後の「日本語訳を見る」で訳が出ます。"));
   const empty = list.length ? null : el("p", { class: "empty-msg", text: "まだここに表示できる文章がありません。少したってから開き直してください。" });
-  main.replaceChildren(help, ...list, empty);
+  main.replaceChildren(...[help, ...list, empty].filter(Boolean));
   main.scrollTop = 0;
 }
 
@@ -249,12 +249,22 @@ function showChapter() {
   const speakers = [];
   // 長い名前は、札だけ頭文字で短くする（本文と音声はそのまま）
   const SHORT_WHO = { "Nightingale": "N.", "Hokusai": "H.", "Mr. Brown": "Mr. B" };
-  const pstart = story.pstart || [];
-  const line = (p, i) => {
-    if (block) {
-      const box = ch.ja[i] ? trBox(ch.ja[i]) : null;
-      return el("p", { class: "sent" + (pstart.includes(i) ? " pgap" : "") }, ...segs(p), box ? trBtn(box) : null, box);
+  // TOEFL対策：1文ずつのデータを段落にまとめ、段落ごとに訳ボタンを付ける（pstart＝段落が始まる文の番号）
+  const paragraphs = () => {
+    const starts = [0, ...(story.pstart || []), ch.paras.length];
+    const out = [];
+    for (let k = 0; k + 1 < starts.length; k++) {
+      const idx = [];
+      for (let i = starts[k]; i < starts[k + 1]; i++) idx.push(i);
+      if (!idx.length) continue;
+      const body = idx.flatMap((i, n) => (n ? [document.createTextNode(" "), ...segs(ch.paras[i])] : segs(ch.paras[i])));
+      const ja = idx.map((i) => ch.ja[i] || "").join("");
+      const box = ja ? trBox(ja) : null;
+      out.push(el("p", { class: "para" }, ...body, box ? trBtn(box) : null, box));
     }
+    return out;
+  };
+  const line = (p, i) => {
     const m = talk && typeof p[0] === "string" && /^([A-Z][A-Za-z. ]*): $/.exec(p[0]);
     if (!m) return el("p", {}, ...segs(p));
     if (!speakers.includes(m[1])) speakers.push(m[1]);
@@ -264,7 +274,7 @@ function showChapter() {
     return el("p", { class: "line" }, el("span", { class: "who who" + (speakers.indexOf(m[1]) % 2), text: SHORT_WHO[m[1]] || m[1], title: m[1] }),
       el("span", { class: "say" }, ...segs(p.slice(1)), box ? trBtn(box) : null, box));
   };
-  const text = el("div", { class: "text" + (talk ? " talk" : "") + (block ? " block" : ""), lang: "en" }, ch.paras.map(line));
+  const text = el("div", { class: "text" + (talk ? " talk" : "") + (block ? " block" : ""), lang: "en" }, block ? paragraphs() : ch.paras.map(line));
   // 話し手の札は、いちばん長い名前（Mr. Brown・Nightingale など）に幅をそろえる
   if (talk) requestAnimationFrame(() => {
     const ws = [...text.querySelectorAll(".who")];
@@ -293,9 +303,11 @@ function showChapter() {
 
   const one = story.chapters.length === 1;
   const sep = talk || block;   // 1行ずつ訳があるときは、下の「日本語訳を見る」は出さない
-  main.replaceChildren(...[one ? null : chips, player, storyHead, title, text,
+  const wl = block ? wordList() : null;
+  main.replaceChildren(...[one ? null : chips, player, storyHead,
+    wl ? wl.btn : null, wl ? wl.box : null, title, text,
     sep ? null : jaBtn, sep ? null : jaBox,
-    block ? wordList() : null, block && story.quiz ? quizSection() : null,
+    block && story.quiz ? quizSection() : null,
     one ? null : nav].filter(Boolean));
   main.scrollTop = 0;
   const on = chips.querySelector('[aria-pressed="true"]');
@@ -335,23 +347,33 @@ function segs(list) {
   });
 }
 
-/* ---- TOEFL対策：このブロックの単語 ---- */
+/* ---- TOEFL対策：このお話の単語リスト（ボタンで開く） ---- */
 function wordList() {
   const seen = new Set();
-  const groups = { subj: [], acad: [] };
+  const groups = { subj: [], acad: [], other: [] };
   for (const g of Object.values(story.gloss)) {
-    if (!groups[g.k]) continue;
     const key = (g.base || g.w).toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    groups[g.k].push(g);
+    groups[groups[g.k] ? g.k : "other"].push(g);
   }
+  const n = groups.subj.length + groups.acad.length + groups.other.length;
   const ul = (arr) => el("ul", { class: "wl" }, arr.map((g) => el("li", {},
     el("span", { class: "wl-en", lang: "en", text: g.base || g.w }), el("span", { class: "wl-ja", text: g.ja }))));
-  return el("section", { class: "wordlist" },
-    el("h2", { text: "このブロックの単語" }),
-    groups.subj.length ? el("h3", { class: "wl-subj", text: "教科の単語" }) : null, groups.subj.length ? ul(groups.subj) : null,
-    groups.acad.length ? el("h3", { class: "wl-acad", text: "どの教科にもよく出る単語" }) : null, groups.acad.length ? ul(groups.acad) : null);
+  const part = (k, cls, label) => (groups[k].length ? [el("h3", { class: cls, text: label }), ul(groups[k])] : []);
+  const box = el("section", { class: "wordlist", hidden: true },
+    ...part("subj", "wl-subj", "教科の単語"),
+    ...part("acad", "wl-acad", "どの教科にもよく出る単語"),
+    ...part("other", "wl-other", "そのほかの語句"));
+  const label = (open) => (open ? "単語リストをとじる" : `このお話の単語リスト（${n}語）`);
+  const btn = el("button", { class: "wl-btn", type: "button", "aria-expanded": "false", text: label(false) });
+  btn.addEventListener("click", () => {
+    const open = box.hidden;
+    box.hidden = !open;
+    btn.textContent = label(open);
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  return { btn, box };
 }
 
 /* ---- TOEFL対策：確認問題 ---- */

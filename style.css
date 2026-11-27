@@ -234,3 +234,11 @@ h1{font-family:var(--ja);font-size:24px;margin:8px 0 4px;line-height:1.4}
 .q-score-n{font-size:22px;font-weight:700}
 .ctw-w{white-space:nowrap}
 .empty-msg{font-size:16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:14px;margin:12px 0}
+
+/* TOEFL対策：段落ごとの表示と単語リストのボタン */
+.text.block p.para{margin:0 0 18px}
+.wl-btn{display:block;width:100%;min-height:48px;margin:0 0 14px;border:2px solid #7c5cd6;background:var(--surface);color:#4b2a8a;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer}
+.wl-btn[aria-expanded="true"]{background:#ebe4fb}
+@media (prefers-color-scheme: dark){.wl-btn{color:#dccfff}.wl-btn[aria-expanded="true"]{background:#2c2550}}
+.wordlist{margin-top:0}
+.wl-other{border-color:var(--line) !important}
