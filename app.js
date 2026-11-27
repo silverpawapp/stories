@@ -275,7 +275,8 @@ function showChapter() {
       if (!idx.length) continue;
       // 式の行（$ で書いた行）は、黒板のように1行で見せる
       if (idx.length === 1 && (story.eqs || []).includes(idx[0])) {
-        out.push(el("div", { class: "eq" }, ...segs(ch.paras[idx[0]])));
+        const fig = story.figs && story.figs[String(idx[0])];
+        out.push(fig ? figure(fig) : el("div", { class: "eq" }, ...segs(ch.paras[idx[0]])));
         continue;
       }
       const body = idx.flatMap((i, n) => (n ? [document.createTextNode(" "), ...segs(ch.paras[i])] : segs(ch.paras[i])));
@@ -371,6 +372,65 @@ function segs(list) {
     seenWords.add(key);
     return el("button", { class: "w" + (g.k ? " w-" + g.k : ""), type: "button", "data-g": s.g, onclick: (e) => showWord(e.currentTarget, s.t, g), text: s.t });
   });
+}
+
+/* ---- グラフ（本文の「% 名前」の行）：点と直線の xy グラフを SVG でかく ---- */
+function figure(f) {
+  const NS = "http://www.w3.org/2000/svg";
+  const W = 340, H = 250, L = 50, R = 18, T = 18, B = 48;
+  const sx = (x) => L + (x / f.xMax) * (W - L - R);
+  const sy = (y) => H - B - (y / f.yMax) * (H - T - B);
+  const svg = document.createElementNS(NS, "svg");
+  const add = (parent, tag, attrs, text) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    if (text != null) n.textContent = text;
+    parent.append(n);
+    return n;
+  };
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", f.title || "graph");
+  svg.setAttribute("class", "fig-svg");
+  // 目もりと補助線（うすい1px）
+  for (let y = 0; y <= f.yMax + 1e-9; y += f.yStep) {
+    add(svg, "line", { x1: L, x2: W - R, y1: sy(y), y2: sy(y), class: "fig-grid" });
+    add(svg, "text", { x: L - 6, y: sy(y) + 4, class: "fig-tick", "text-anchor": "end" }, String(y));
+  }
+  for (let x = 0; x <= f.xMax + 1e-9; x += f.xStep) {
+    add(svg, "line", { x1: sx(x), x2: sx(x), y1: T, y2: H - B, class: "fig-grid" });
+    add(svg, "text", { x: sx(x), y: H - B + 16, class: "fig-tick", "text-anchor": "middle" }, String(x));
+  }
+  // じく
+  add(svg, "line", { x1: L, x2: W - R, y1: sy(0), y2: sy(0), class: "fig-axis" });
+  add(svg, "line", { x1: L, x2: L, y1: T, y2: H - B, class: "fig-axis" });
+  add(svg, "text", { x: (L + W - R) / 2, y: H - 8, class: "fig-label", "text-anchor": "middle" }, f.xLabel);
+  add(svg, "text", { x: 14, y: (T + H - B) / 2, class: "fig-label", "text-anchor": "middle", transform: `rotate(-90 14 ${(T + H - B) / 2})` }, f.yLabel);
+  if (f.origin) add(svg, "text", { x: L + 22, y: sy(0) - 6, class: "fig-note" }, "origin");
+  // 傾きの三角形（右へ run、上へ rise）
+  if (f.slope) {
+    const [x0, y0] = f.slope.from, x1 = x0 + f.slope.run, y1 = y0 + f.slope.rise;
+    add(svg, "path", { d: `M${sx(x0)} ${sy(y0)} H${sx(x1)} V${sy(y1)}`, class: "fig-slope" });
+    add(svg, "text", { x: (sx(x0) + sx(x1)) / 2, y: sy(y0) + 15, class: "fig-note", "text-anchor": "middle" }, String(f.slope.run));
+    add(svg, "text", { x: sx(x1) + 6, y: (sy(y0) + sy(y1)) / 2 + 4, class: "fig-note" }, String(f.slope.rise));
+    const [tx, ty] = f.slope.textAt || [x1, y1];   // ラベルが線と重ならない場所（データの座標）
+    add(svg, "text", { x: sx(tx), y: sy(ty), class: "fig-note fig-strong" }, f.slope.text);
+  }
+  // 直線（2px）と点（8px以上・まわりに2pxのふち）
+  if (f.line) {
+    const [[a, b], [c, d]] = f.line;
+    add(svg, "line", { x1: sx(a), y1: sy(b), x2: sx(c), y2: sy(d), class: "fig-line" });
+  }
+  for (const [x, y] of f.points || []) {
+    const g = add(svg, "g", {});
+    add(g, "title", {}, `(${x}, ${y})`);
+    add(g, "circle", { cx: sx(x), cy: sy(y), r: 5, class: "fig-dot" });
+    if (f.pointLabels) add(g, "text", { x: sx(x) - 8, y: sy(y) - 10, class: "fig-note", "text-anchor": "end" }, String(y));
+  }
+  for (const n of f.notes || []) {
+    add(svg, "text", { x: sx(n.at[0]) + (n.dx || 0), y: sy(n.at[1]) + (n.dy || 0), class: "fig-note fig-strong" }, n.text);
+  }
+  return el("figure", { class: "fig", lang: "en" }, svg, f.title ? el("figcaption", { text: f.title }) : null);
 }
 
 /* ---- TOEFL対策：このお話の単語リスト（ボタンで開く） ---- */
