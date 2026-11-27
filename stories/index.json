@@ -676,6 +676,20 @@
       "subtitleTr": "数学：確率"
     },
     {
+      "id": "TFL03-00_tips",
+      "section": "toefl",
+      "step": 3,
+      "guide": true,
+      "subject": "コツ",
+      "subjectKey": "tips",
+      "code": "TFL03-00",
+      "title": "How to Read Longer Passages",
+      "titleJa": "長い文章の読み方と、答えの見つけ方",
+      "short": "読み方のコツ",
+      "chapters": 0,
+      "meta": "読み方と答えの見つけ方のコツ"
+    },
+    {
       "id": "TFL03-sc01_birds",
       "section": "toefl",
       "subject": "理科",
